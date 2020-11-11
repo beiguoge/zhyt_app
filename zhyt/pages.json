@@ -1,0 +1,83 @@
+{
+	"easycom": {
+			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		},
+	"pages": [
+		{
+		    "path" : "pages/login/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "智慧油田",
+				"navigationBarBackgroundColor":"#0c2461",
+				"navigationBarTextStyle":"white"
+			}
+		}
+        ,{
+            "path" : "pages/application/application",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "应用",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video/video",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "视频",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人中心",
+                "enablePullDownRefresh": false
+            }
+        }
+    ],
+	"tabBar": {
+	    "color": "#FFFFFF",
+	    "selectedColor": "#ffd04b",
+	    "borderStyle": "black",
+	    "backgroundColor": "#0c2461",
+	    "list": [{
+	        "pagePath": "pages/index/index",
+	        "iconPath": "static/image/tabBar/index_default.png",
+	        "selectedIconPath": "static/image/tabBar/index_select.png",
+	        "text": "首页"
+	    }, {
+	        "pagePath": "pages/application/application",
+	        "iconPath": "static/image/tabBar/application_default.png",
+	        "selectedIconPath": "static/image/tabBar/application_select.png",
+	        "text": "应用"
+	    },{
+	        "pagePath": "pages/video/video",
+	        "iconPath": "static/image/tabBar/video_default.png",
+	        "selectedIconPath": "static/image/tabBar/video_select.png",
+	        "text": "视频"
+	    }, {
+	        "pagePath": "pages/user/user",
+	        "iconPath": "static/image/tabBar/user_default.png",
+	        "selectedIconPath": "static/image/tabBar/user_select.png",
+	        "text": "个人"
+	    }]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "智慧油田",
+		"navigationBarBackgroundColor": "#0c2461",
+		"backgroundColor": "#0c2461"
+	}
+}

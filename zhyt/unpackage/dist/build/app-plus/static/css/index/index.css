@@ -1,0 +1,44 @@
+.index {
+	width: 100%;
+}
+.index_product {
+	width: 100%;
+	height: 360upx;
+	display: flex;
+	flex-direction: row;
+}
+
+.index_table {
+	width: 58%;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
+.u-td {
+	font-size: 28upx !important;
+	padding: 6% 0 !important;
+	height: auto;
+}
+
+.product_charts {
+	width: 42%;
+	height: 100%;
+}
+
+.product_charts_oil, .product_charts_water {
+	width: 100%;
+	height: 50%;
+	background-color: #FFFFFF;
+}
+
+.pie_charts_work {
+	width: 100%; 
+	height:380upx;
+	background-color: #FFFFFF;
+}
+
+.index_last_table {
+	width: 100%;
+	padding: 0 20%;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
