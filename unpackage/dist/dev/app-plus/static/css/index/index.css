@@ -1,0 +1,61 @@
+.index {
+	width: 100%;
+}
+.index_product, .index_abnormal {
+	width: 100%;
+	height: 360upx;
+	display: flex;
+	flex-direction: row;
+}
+
+.index_table {
+	width: 58% !important;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
+.u-tr {
+	width: 100% !important;
+	height: 88upx !important;
+}
+.u-td {
+	font-size: 27upx !important;
+	height: 88upx !important;
+}
+
+.abnormal_tr {
+	width: 100% !important;
+	height: 176upx !important;
+}
+.abnormal_td1, .abnormal_td2 {
+	font-size: 27upx !important;
+	height: 176upx !important;
+	border-bottom: 0 !important;
+}
+.abnormal_td2 {
+	border-right: 0 !important;
+	padding: 0 0 !important;
+}
+
+.product_charts {
+	width: 42%;
+	height: 100%;
+}
+
+.product_charts_oil, .product_charts_water {
+	width: 100%;
+	height: 50%;
+	background-color: #FFFFFF;
+}
+
+.pie_charts_work {
+	width: 100%; 
+	height:380upx;
+	background-color: #FFFFFF;
+}
+
+.index_last_table {
+	width: 100%;
+	padding: 8upx 4%;
+	border-left: 0 !important;
+	border-bottom: 0 !important;
+}
