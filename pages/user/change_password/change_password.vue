@@ -47,13 +47,14 @@
 						icon: false,
 						type: 'error'
 					})
+				} else {
+					this.$refs.uToast.show({
+						title: '密码修改成功!',
+						icon: false,
+						type: 'success',
+						position: 'bottom'
+					})
 				}
-				this.$refs.uToast.show({
-					title: '密码修改成功!',
-					icon: false,
-					type: 'success',
-					position: 'bottom'
-				})
 			}
 		},
 		onLoad() {

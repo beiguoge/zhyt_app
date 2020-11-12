@@ -73,6 +73,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/application/measure_work/measure/measure",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "措施评价",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "common/list/list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 	    "color": "#FFFFFF",

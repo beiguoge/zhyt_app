@@ -96,7 +96,7 @@
 		},
 		data() {
 			return {
-				pixelRatio:1
+				pixelRatio: 1
 			}
 		},
 		onLoad() {

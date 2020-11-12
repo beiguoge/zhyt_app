@@ -12,7 +12,7 @@
 
 <script>
 	import PageTitle from "../../../../common/page_title/page_title.vue";
-	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js'
+	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaColumn = null;
 	export default {

@@ -54,7 +54,7 @@
 			</u-grid-item>
 			<u-grid-item index=11 @click="details">
 				<image class="application_icon" src="../../static/image/application/measure.png" mode="aspectFit" />
-				<view class="grid-text">措施建议</view>
+				<view class="grid-text">措施评价</view>
 			</u-grid-item>
 		</u-grid>
 		<PageTitle title_left_text="知识库" title_right_text="" />
@@ -108,6 +108,11 @@
 					case '3':
 						uni.reLaunch({
 							url: '../login/login'
+						})
+						break;
+					case '11':
+						uni.navigateTo({
+							url: './measure_work/measure/measure'
 						})
 						break;
 				}
