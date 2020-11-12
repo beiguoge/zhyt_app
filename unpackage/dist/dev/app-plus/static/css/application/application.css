@@ -1,0 +1,14 @@
+.application {
+	width: 100%;
+	background: #FFFFFF;
+}
+
+.application_icon {
+	width: 60upx;
+	height: 60upx;
+}
+
+.grid-text {
+	font-size: 26upx;
+	color: #273c75;
+}

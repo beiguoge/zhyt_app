@@ -1,0 +1,12 @@
+.oil_day {
+	width: 100%;
+}
+.oil_day_charts {
+	width: 100%;
+	height: 380upx;
+	/* background: #A0CFFF; */
+}
+#oilDayColumn {
+	width: 100%;
+	height: 100%;
+}

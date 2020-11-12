@@ -6,7 +6,7 @@
 
 .user_info {
 	width: 100%;
-	height: 36%;
+	height: 37%;
 	text-align: center;
 	background: #007AFF;
 	background-image: url(/static/image/user/user_avatar.jpg);
@@ -19,15 +19,15 @@
 	background:rgba(255,255,255,0.5);
 }
 .user_img {
-	margin-top: 8%;
+	margin-top: 9%;
 }
 .user_name {
-	margin-top: 3%;
+	margin-top: 5%;
 	font-size: 36upx;
-	color: #485460;
+	color: #273c75;
 }
 .user_id {
 	margin-top: 1%;
 	font-size: 26upx;
-	color: #485460;
+	color: #273c75;
 }

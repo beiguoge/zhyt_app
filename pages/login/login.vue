@@ -54,7 +54,7 @@
 			login() {
 				uni.setStorage({
 					key: 'userInfo',
-					data: {userId: '723504', username: '张三', user_avatar: '/static/image/user/user_avatar.jpg'},
+					data: {userId: '5ee8ae9a4d174cff8d168b57ee85a136', username: '张三', user_avatar: '/static/image/user/user_avatar.jpg'},
 					success: function() {
 						uni.switchTab({
 							url: '../index/index'
@@ -67,7 +67,7 @@
 						this.postRequest('/login',{username: this.form.username, password: this.form.password}).then(res => {
 							uni.setStorage({
 								key: 'userInfo',
-								data: res.data.userName,
+								data: {userId: res.data.userId, username: res.data.userName, user_avatar: '/static/image/user/user_avatar.jpg'},
 								success: function() {
 									uni.switchTab({
 										url: '../index/index'

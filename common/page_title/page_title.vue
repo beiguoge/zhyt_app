@@ -1,5 +1,5 @@
 <template>
-	<u-section class="page_title" :title=title_left_text line-color="#0a0f2d" :sub-title=title_right_text :arrow=false />
+	<u-section class="page_title" :title=title_left_text line-color="#0c2461" :sub-title=title_right_text :arrow=false />
 </template>
 
 <script>

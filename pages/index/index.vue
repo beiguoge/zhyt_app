@@ -86,6 +86,7 @@
 
 <script>
 	import PageTitle from "../../common/page_title/page_title.vue";
+	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaPie = null;
 	var canvaRing;
@@ -162,7 +163,7 @@
 		},
 		methods: {
 			showPie(canvasId, chartData){
-				canvaPie = this.uCharts({
+				canvaPie = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'pie',
@@ -190,7 +191,7 @@
 				});
 			},
 			showRing(canvasId, chartData, color, title) {
-				canvaRing = this.uCharts({
+				canvaRing = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'ring',

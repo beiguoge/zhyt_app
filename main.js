@@ -6,7 +6,6 @@ import { getRequest } from 'common/api/request.js'
 import { postRequest } from 'common/api/request.js'
 Vue.use(uView);
 
-Vue.prototype.uCharts = uCharts
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.config.productionTip = false

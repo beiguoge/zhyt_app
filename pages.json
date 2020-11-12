@@ -46,6 +46,33 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/user/about_us/about_us",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关于我们",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/change_password/change_password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/application/product/oil_day/oil_day",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "日产油",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 	    "color": "#FFFFFF",
