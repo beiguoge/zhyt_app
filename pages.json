@@ -82,15 +82,6 @@
             }
             
         }
-        ,{
-            "path" : "common/list/list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
     ],
 	"tabBar": {
 	    "color": "#FFFFFF",

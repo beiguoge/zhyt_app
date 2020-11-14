@@ -1,7 +1,7 @@
 <template>
 	<view class="oil_day">
-		<u-section class="oil_page_title" title="日产油" line-color="#0c2461" sub-title="日期选择" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="chooseDate" color="#0c2461" size="32upx" />
+		<u-section class="oil_page_title" title="日产油" line-color="#0c2461" sub-title="" :arrow=false />
+		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#0c2461" size="32upx" label-size="24" label-color="#718093" />
 		<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
 		<view class="oil_day_charts" >
 			<canvas canvas-id="oilDayColumn" id="oilDayColumn" @touchstart="touchColumn" />
@@ -26,9 +26,6 @@
 			}
 		},
 		methods: {
-			chooseDate() {
-				this.calendarShow = true
-			},
 			selectByData(val) {
 				console.log(val);
 			},
@@ -96,16 +93,4 @@
 
 <style>
 	@import url("/static/css/application/product/oil_day.css");
-	.oil_page_title {
-		background: #F1F1F1;
-		width: 100%;
-		height: 80rpx;
-		padding: 0 4%;
-		padding-right: 9%;
-	}
-	.title_calendar {
-		position: absolute;
-		top: 2%;
-		left: 93%;
-	}
 </style>

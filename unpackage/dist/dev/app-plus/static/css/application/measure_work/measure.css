@@ -12,18 +12,15 @@
 .title_calendar {
 	position: absolute;
 	top: 2%;
-	left: 93%;
+	left: 80%;
 }
 	
 .title_dept {
-	width: 16%;
-	height: 4%;
+	width: 17%;
+	height: 3%;
 	position: absolute;
 	top: 2%;
 	left: 54%;
-	text-align: center;
-	font-size: 27upx;
-	color: #778ca3;
 }
 
 .measure_all {
@@ -49,13 +46,38 @@
 	height: 25% !important;
 }
 
-.measure_all_list, .measure_all_scroll {
+.measure_all_list {
 	width: 100%;
-	height: 400upx;
+	height: 500upx;
 }
-
-.measure_all_list_item {
+.measure_all_scroll {
 	width: 100%;
-	height: 40upx;
-	background: #007AFF;
+	height: 72%;
+}
+.measure_list_all_item {
+	width: 100%;
+	height: 18%;
+}
+.measure_list_item {
+	width: 100% !important;
+	height: 100% !important;
+}
+.measure_list_th {
+	width: 100% !important;
+	height: 14% !important;
+	border-left: 0 !important;
+}
+.list_u-th, .list_u-td {
+	border-right: 0 !important;
+	height: 100% !important;
+}
+.list_u-td {
+	border-bottom: 0 !important;
+}
+.list_u-tr {
+	width: 100% !important;
+	height: 100% !important;
+}
+.u_td, .u_th {
+	border-right: 0 !important;
 }

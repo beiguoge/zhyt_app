@@ -106,7 +106,7 @@
 						})
 						break;
 					case '3':
-						uni.reLaunch({
+						uni.navigateTo({
 							url: '../login/login'
 						})
 						break;

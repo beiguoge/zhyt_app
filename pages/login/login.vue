@@ -52,7 +52,7 @@
 		},
 		methods: {
 			login() {
-				uni.setStorage({
+				/* uni.setStorage({
 					key: 'userInfo',
 					data: {userId: '5ee8ae9a4d174cff8d168b57ee85a136', username: '张三', user_avatar: '/static/image/user/user_avatar.jpg'},
 					success: function() {
@@ -60,8 +60,8 @@
 							url: '../index/index'
 						})
 					}
-				});
-				/* let that = this;
+				}); */
+				let that = this;
 				this.$refs.uForm.validate(valid => {
 					if(valid) {
 						this.postRequest('/login',{username: this.form.username, password: this.form.password}).then(res => {
@@ -76,7 +76,7 @@
 							});
 						});
 					}
-				}) */
+				})
 			},
 			onReady() {
 				this.$refs.uForm.setRules(this.rules);
