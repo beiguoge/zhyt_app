@@ -87,18 +87,7 @@
     },
     "h5" : {
         "devServer" : {
-            "port" : 8888,
-            "disableHostCheck" : true,
-            "proxy" : {
-                "/" : {
-                    "target" : "http://192.168.0.185:8080",
-                    "changeOrigin" : true,
-                    "secure" : false,
-                    "pathRewrite" : {
-                        "^/" : ""
-                    }
-                }
-            }
+            "port" : 8888
         }
     }
 }

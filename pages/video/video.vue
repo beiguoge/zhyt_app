@@ -5,14 +5,14 @@
 			<view class="video_list" v-for="(item,indexSub) in oilTeam" :key="indexSub">
 				<view class="video_item" v-if="indexSub === 0">
 					<image class="video_team_icon" src="../../static/image/video/oil_team.png" />
-					<u-section class="video_team_text" :title="item.departmentName" :right="false" />
-					<u-icon name="arrow-down" color="#2979ff" size="28" />
+					<u-section class="video_team_text" :title="item.departmentName" :right="false" :show-line="false" :arrow="false" />
+					<u-icon name="arrow-down" color="#2979ff" size="30" />
 				</view>
 				<view class="video_item" v-else>
 					<image class="video_team_icon" src="../../static/image/video/oil_team.png" />
 					<u-section class="video_team_text" :title="item.departmentName" sub-title="" :show-line=false :arrow="true" />
 				</view>
-				<view class="video_item_children" v-if="indexSub === 0" v-for="(item,index) in oilStation" :key="index">
+				<view class="video_item_children" v-if="indexSub === 0" v-for="(item,index) in oilStation" :key="index" @click="detailsVideo(index)">
 					<image class="video_team_children_icon" src="../../static/image/video/oil_station.png" />
 					<u-section class="video_team_text" :title="item.departmentName" sub-title="" :show-line=false :arrow="true" />
 				</view>
@@ -41,6 +41,9 @@
 			},
 			search(value) {
 				console.log("search结果" + value);
+			},
+			detailsVideo(index) {
+				console.log(index);
 			}
 		},
 		onLoad() {

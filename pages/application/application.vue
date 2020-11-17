@@ -96,18 +96,37 @@
 						break;
 					case '1':
 						uni.navigateTo({
-							url: './change_password/change_password'
+							url: './product/oil_month/oil_month'
 						});
 						break;
 					case '2':
-						this.$refs.uToast.show({
-							title: '已是最新版本',
-							type: 'success'
-						})
+						uni.navigateTo({
+							url: './product/oil_year/oil_year'
+						});
 						break;
 					case '3':
 						uni.navigateTo({
-							url: '../login/login'
+							url: './product/water_day/water_day'
+						})
+						break;
+					case '4':
+						uni.navigateTo({
+							url: './product/water_month/water_month'
+						})
+						break;
+					case '5':
+						uni.navigateTo({
+							url: './product/water_year/water_year'
+						})
+						break;
+					case '7':
+						uni.navigateTo({
+							url: './abnormal/oil_abnormal/oil_abnormal'
+						})
+						break;
+					case '8':
+						uni.navigateTo({
+							url: './abnormal/water_abnormal/water_abnormal'
 						})
 						break;
 					case '11':

@@ -1,0 +1,38 @@
+.water_abnormal {
+	width: 100%;
+}
+
+.abnormal_page_title {
+	background: #F1F1F1;
+	width: 100%;
+	height: 80rpx;
+	padding: 0 4%;
+	padding-right: 9%;
+}
+.title_calendar {
+	position: absolute;
+	top: 2%;
+	left: 80%;
+}
+	
+.title_dept {
+	width: 17%;
+	height: 3%;
+	position: absolute;
+	top: 2%;
+	left: 54%;
+}
+
+.abnormal_all {
+	width: 100%;
+	height: 300upx;
+	display: flex;
+	flex-direction: row;
+	padding: 1% 2%;
+}
+
+.u-table {
+	width: 40%;
+	height: 50%;
+	margin-top: 8%;
+}

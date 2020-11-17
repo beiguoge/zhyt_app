@@ -8,10 +8,9 @@
 					<u-td class="u-td" style="border-right: 0;">154.15</u-td>
 				</u-tr>
 				<u-tr class="u-tr">
-					<u-td class="u-td" style="border-bottom: 0">月完成比例</u-td>
-					<u-td class="u-td" style="border-right: 0;border-bottom: 0">89%</u-td>
+					<u-td class="u-td">月完成比例</u-td>
+					<u-td class="u-td" style="border-right: 0;">89%</u-td>
 				</u-tr>
-				<u-line color="#e4e7ed" style="width: 750upx;" />
 				<u-tr class="u-tr">
 					<u-td class="u-td">油田注水</u-td>
 					<u-td class="u-td" style="border-right: 0">295.15</u-td>

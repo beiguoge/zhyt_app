@@ -10,7 +10,6 @@
 		        "navigationBarTitleText": "",
 		        "enablePullDownRefresh": false
 		    }
-		    
 		},
 		{
 			"path": "pages/index/index",
@@ -27,7 +26,6 @@
                 "navigationBarTitleText": "应用",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/video/video",
@@ -36,7 +34,6 @@
                 "navigationBarTitleText": "视频",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/user/user",
@@ -53,7 +50,6 @@
                 "navigationBarTitleText": "关于我们",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/user/change_password/change_password",
@@ -62,7 +58,6 @@
                 "navigationBarTitleText": "修改密码",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/application/product/oil_day/oil_day",
@@ -71,7 +66,6 @@
                 "navigationBarTitleText": "日产油",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/application/measure_work/measure/measure",
@@ -80,7 +74,62 @@
                 "navigationBarTitleText": "措施评价",
                 "enablePullDownRefresh": false
             }
-            
+        }
+        ,{
+            "path" : "pages/application/abnormal/water_abnormal/water_abnormal",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "水井异常",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/abnormal/oil_abnormal/oil_abnormal",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "油井异常",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/product/oil_month/oil_month",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "月产油",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/product/oil_year/oil_year",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "年产油",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/product/water_day/water_day",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "日注水",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/product/water_month/water_month",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "月注水",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/product/water_year/water_year",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "年注水",
+                "enablePullDownRefresh": false
+            }
         }
     ],
 	"tabBar": {
