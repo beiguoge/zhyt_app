@@ -8,32 +8,32 @@
 		</view>
 		<PageTitle title_left_text="完成情况" title_right_text="" />
 		<view class="oil_day_details">
-			<u-table class="oil_day_table" border-color="#999999">
+			<u-table class="oil_day_table" border-color="#999999" padding="0 0">
 				<u-tr class="oil_day_tr">
 					<u-td class="oil_day_td" width="20%">场站</u-td>
-					<u-td class="oil_day_td" width="16%">开井</u-td>
-					<u-td class="oil_day_td" width="16%">计划产油</u-td>
-					<u-td class="oil_day_td" width="16%">实际产油</u-td>
-					<u-td class="oil_day_td" width="16%">较昨日</u-td>
-					<u-td class="oil_day_td" width="16%">较月平均</u-td>
+					<u-td class="oil_day_td" width="14%">开井</u-td>
+					<u-td class="oil_day_td" width="18%">计划产油</u-td>
+					<u-td class="oil_day_td" width="18%">实际产油</u-td>
+					<u-td class="oil_day_td" width="15%">较昨日</u-td>
+					<u-td class="oil_day_td" width="15%">较月平均</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr">
 					<u-td class="oil_day_td" width="20%">合计</u-td>
-					<u-td class="oil_day_td" width="16%">320</u-td>
-					<u-td class="oil_day_td" width="16%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="16%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="16%" style="color: #e65a40;font-weight: bold;">+126</u-td>
-					<u-td class="oil_day_td" width="16%" style="color: #22b573;font-weight: bold;">-86</u-td>
+					<u-td class="oil_day_td" width="14%">320</u-td>
+					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
+					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
+					<u-td class="oil_day_td" width="15%" style="color: #e65a40;font-weight: bold;">+126</u-td>
+					<u-td class="oil_day_td" width="15%" style="color: #22b573;font-weight: bold;">-86</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr" v-for="(item, index) in oilDayData" :key="index">
 					<u-td class="oil_day_td" width="20%">{{item.oilStationName}}</u-td>
-					<u-td class="oil_day_td" width="16%">{{item.openNum}}</u-td>
-					<u-td class="oil_day_td" width="16%"><span>{{item.oilPlan}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="16%"><span>{{item.oilFact}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="16%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">+{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="16%" v-else  style="color: #22b573;font-weight: bold;">{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="16%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">+{{item.toMonth}}</u-td>
-					<u-td class="oil_day_td" width="16%" v-else  style="color: #22b573;font-weight: bold;">{{item.toMonth}}</u-td>
+					<u-td class="oil_day_td" width="14%">{{item.openNum}}</u-td>
+					<u-td class="oil_day_td" width="18%"><span>{{item.oilPlan}}m<sup>3</sup></span></u-td>
+					<u-td class="oil_day_td" width="18%"><span>{{item.oilFact}}m<sup>3</sup></span></u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">+{{item.toYesterday}}</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toYesterday}}</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">+{{item.toMonth}}</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toMonth}}</u-td>
 				</u-tr>
 			</u-table>
 		</view>
