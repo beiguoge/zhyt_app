@@ -14,9 +14,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "智慧油田",
-				"navigationBarBackgroundColor":"#0c2461",
-				"navigationBarTextStyle":"white"
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false
 			}
 		}
         ,{
@@ -131,12 +130,28 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/application/measure_work/work_down/work_down",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "井下作业",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/application/measure_work/work_down/work_down_details/work_down_details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "作业进度",
+                "enablePullDownRefresh": false
+            }
+        }
     ],
 	"tabBar": {
-	    "color": "#FFFFFF",
-	    "selectedColor": "#ffd04b",
+	    "color": "#999999",
+	    "selectedColor": "#113b8f",
 	    "borderStyle": "black",
-	    "backgroundColor": "#0c2461",
+	    "backgroundColor": "#FFFFFF",
 	    "list": [{
 	        "pagePath": "pages/index/index",
 	        "iconPath": "static/image/tabBar/index_default.png",
@@ -162,7 +177,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "智慧油田",
-		"navigationBarBackgroundColor": "#0c2461",
-		"backgroundColor": "#0c2461"
+		"navigationBarBackgroundColor": "#113b8f",
+		"backgroundColor": "#113b8f"
 	}
 }

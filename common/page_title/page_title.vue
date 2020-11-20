@@ -1,5 +1,5 @@
 <template>
-	<u-section class="page_title" :title=title_left_text line-color="#0c2461" :sub-title=title_right_text :arrow=false />
+	<u-section class="page_title" font-size="24" :title=title_left_text line-color="#113b8f" :sub-title=title_right_text sub-color="#000" :arrow=false />
 </template>
 
 <script>
@@ -25,9 +25,9 @@
 
 <style>
 .page_title {
-	background: #F1F1F1;
+	background: #cfd8e9;
 	width: 100%;
-	height: 80rpx;
+	height: 60rpx;
 	padding: 0 4%;
 }
 </style>

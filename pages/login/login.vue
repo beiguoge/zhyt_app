@@ -2,20 +2,20 @@
 	<view class="content">
 		<view class="login_title">
 			<image class="login_logo" src="/static/image/logo.png" />
-			<view class="login_title_text">定边采油厂智能油田</view>
+			<view class="login_title_text">定边采油厂油田助手</view>
 		</view>
 		<u-form class="login_form" :model="form" ref="uForm" @submit="login">
-			<u-form-item class="login_item" prop="username">
-				<u-icon class="login_icon" name="account-fill" color="#FFFFFF" size="28"></u-icon>
-				<u-input class="login_inp" type="text" placeholder="请输入用户名" placeholder-style="color: #fff" v-model="form.username" />
+			<u-form-item class="login_item" :border-bottom="false" prop="username">
+				<u-icon class="login_icon" name="account-fill" color="#f2f2f2" size="38"></u-icon>
+				<u-input class="login_inp" type="text" placeholder="用户名" placeholder-style="color: #999999" v-model="form.username" />
 			</u-form-item>
-			<u-form-item class="login_item" prop="password">
-				<u-icon class="login_icon" name="lock-fill" color="#FFFFFF" size="28"></u-icon>
-				<u-input class="login_inp" type="password" placeholder="请输入密码" placeholder-style="color: #fff" :password-icon="true" v-model="form.password" />
+			<u-form-item class="login_item" :border-bottom="false" prop="password">
+				<u-icon class="login_icon" name="lock-fill" color="#f2f2f2" size="38"></u-icon>
+				<u-input class="login_inp" type="password" placeholder="密码" placeholder-style="color: #999999" :password-icon="false" v-model="form.password" />
 			</u-form-item>
+			<u-checkbox class="remember_me" @change="rememberMeChange" size="30rpx" label-size="28rpx" v-model="rememberMe">自动登录</u-checkbox>
 		</u-form>
-		<u-button class="login_btn" form-type="submit" type="primary" @click="login()">登录</u-button>
-		<u-toast ref="uToast" />
+		<u-button class="login_btn" shape="circle" form-type="submit" type="primary" @click="login()">登录</u-button>
 	</view>
 </template>
 
@@ -47,40 +47,45 @@
 							trigger: 'change'
 						}
 					]
-				}
+				},
+				rememberMe: false
 			}
 		},
 		methods: {
 			login() {
-				/* uni.setStorage({
-					key: 'userInfo',
-					data: {userId: '5ee8ae9a4d174cff8d168b57ee85a136', username: '张三', user_avatar: '/static/image/user/user_avatar.jpg'},
-					success: function() {
-						uni.switchTab({
-							url: '../index/index'
-						})
-					}
-				}); */
 				let that = this;
 				this.$refs.uForm.validate(valid => {
 					if(valid) {
 						this.postRequest('/login',{username: this.form.username, password: this.form.password}).then(res => {
-							uni.setStorage({
-								key: 'userInfo',
-								data: {userId: res.data.userId, username: res.data.userName, user_avatar: '/static/image/user/user_avatar.jpg'},
+							if(that.rememberMe) {
+								uni.setStorage({
+									key: 'userInfo',
+									data: {userId: res.data.userId, username: res.data.userName, user_avatar: '/static/image/user/user_avatar.jpg'},
+								});
+							}
+							uni.showToast({
+								icon: 'none',
+								title: '登录成功!',
+								position: 'bottom',
 								success: function() {
-									uni.switchTab({
-										url: '../index/index'
-									})
+									setTimeout(
+										function() {
+											uni.switchTab({
+												url: '../index/index'
+											})
+										}, 2000);
 								}
-							});
+							})
 						});
 					}
 				})
 			},
-			onReady() {
-				this.$refs.uForm.setRules(this.rules);
+			rememberMeChange(e) {
+				this.rememberMe = e.value;
 			}
+		},
+		onReady() {
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
@@ -90,6 +95,9 @@
 </style>
 <style>
 /deep/	.uni-input-input {
-		color: #FFFFFF;
+		color: #e6e6e6;
+	}
+/deep/	.u-checkbox__label {
+		color: #FFFFFF !important;
 	}
 </style>

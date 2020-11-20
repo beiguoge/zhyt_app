@@ -7,6 +7,9 @@
 			<view>所有单位</view>
 		</u-popup>
 		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
+		<view class="oil_abnormal_charts" >
+			<canvas canvas-id="oilAbnormalColumn" id="oilAbnormalColumn" />
+		</view>
 		<PageTitle title_left_text="异常明细" title_right_text="" />
 	</view>
 </template>
@@ -15,6 +18,7 @@
 	import PageTitle from "../../../../common/page_title/page_title.vue";
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
+	var canvaColumn = null;
 	export default {
 		components: {
 			PageTitle
@@ -38,6 +42,49 @@
 			selectByData(val) {
 				console.log(val);
 			},
+			showClumn(canvasId, chartData) {
+				canvaColumn = new uCharts({
+					$this: this,
+					canvasId: canvasId,
+					type: 'column',
+					legend: {
+						show:false,
+					},
+					colors: ["#2ed573"],
+					fontSize: 11,
+					background: '#FFFFFF',
+					padding: [0, 0, 0, 0],
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid: true,
+					},
+					yAxis: {
+						data: [{min: 0,max: 50}],
+						gridType: 'dash'
+					},
+					dataLabel: true,
+					width: uni.upx2px(600)*_self.pixelRatio,
+					height: uni.upx2px(300)*_self.pixelRatio,
+					extra: {
+						column: {
+							width: 16
+						}
+					}
+				});
+			}
+		},
+		onLoad() {
+			_self = this;
+			let oilAbnormalColumnData = {
+				categories: ["开井", "液量异常", "含水异常", "动液面异常", "工况异常"],
+				series: [{
+					"name": "",
+					"data": [15, 45, 37, 43, 25]
+					}]
+			};
+			_self.showClumn("oilAbnormalColumn", oilAbnormalColumnData);
 		}
 	}
 </script>

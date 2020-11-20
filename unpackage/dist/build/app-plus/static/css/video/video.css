@@ -1,0 +1,49 @@
+.video {
+	width: 100%;
+	background: #ffffff;
+}
+
+.video_search {
+	width: 90%;
+	position: absolute;
+	top: 1%;
+	left: 5%;
+}
+
+.video_team {
+	width: 100%;
+	position: absolute;
+	top: 8%;
+}
+
+.video_list {
+	width: 100%;
+}
+
+.video_item, .video_item_children {
+	width: 100%;
+	height: 80upx;
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1upx solid #d1d8e0;
+}
+
+.video_item_children {
+	padding-left: 6%;
+}
+
+.video_team_icon {
+	width: 45upx;
+	height: 40upx;
+	margin: 20upx 4%;
+}
+
+.video_team_children_icon{
+	width: 34upx;
+	height: 35upx;
+	margin: 20upx 4%;
+}
+
+.video_team_text {
+	width: 80% !important;
+}

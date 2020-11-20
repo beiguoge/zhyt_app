@@ -4,11 +4,12 @@
 }
 
 .application_icon {
-	width: 60upx;
-	height: 60upx;
+	width: 75upx;
+	height: 75upx;
 }
 
 .grid-text {
-	font-size: 26upx;
+	font-size: 24upx;
+	margin-top: 4%;
 	color: #273c75;
 }

@@ -1,0 +1,65 @@
+.work_down_details {
+	width: 100%;
+}
+
+.step {
+	width: 94%;
+	margin: 10% 3%;
+}
+
+.step1,.step2,.step3,.step4 {
+	width: 14%;
+	height: 8%;
+	position: absolute;
+	top: 12%;
+}
+.step1 {
+	left: 8%;
+}
+.step2 {
+	left: 32%;
+}
+.step3 {
+	right: 32%;
+}
+.step4 {
+	right: 8%;
+}
+
+.details_info {
+	width: 100%;
+}
+
+.details_info_1, .details_info_2 {
+	width: 100%;
+}
+.details_info_table {
+	width: 92%;
+	height: 400upx;
+	margin: 10% 4%;
+}
+.details_info_icon {
+	position: absolute;
+	left: 5%;
+	top: 36%;
+}
+.details_info_tr1 {
+	width: 100%;
+	height: 40%;
+}
+.details_info_tr2 {
+	width: 100%;
+	height: 60%;
+}
+.details_info_td1,.details_info_td2 {
+	height: 100%;
+}
+.u-tr1 {
+	height: 50%;
+}
+.u-tr2 {
+	height: 33%;
+}
+.u-td {
+	height: 100%;
+}

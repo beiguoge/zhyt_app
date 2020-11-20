@@ -1,0 +1,83 @@
+.measure {
+	width: 100%;
+}
+
+.oil_page_title {
+	background: #F1F1F1;
+	width: 100%;
+	height: 80rpx;
+	padding: 0 4%;
+	padding-right: 9%;
+}
+.title_calendar {
+	position: absolute;
+	top: 2%;
+	left: 80%;
+}
+	
+.title_dept {
+	width: 17%;
+	height: 3%;
+	position: absolute;
+	top: 2%;
+	left: 54%;
+}
+
+.measure_all {
+	width: 100%;
+	height: 350upx;
+	display: flex;
+	flex-direction: row;
+}
+
+#measureRing {
+	width: 56%;
+	height: 100%;
+}
+
+.measure_all_table {
+	width: 40% !important;
+	height: 90% !important;
+	margin: 2% 1%;
+}
+
+.u-tr {
+	width: 100% !important;
+	height: 25% !important;
+}
+
+.measure_all_list {
+	width: 100%;
+	height: 500upx;
+}
+.measure_all_scroll {
+	width: 100%;
+	height: 72%;
+}
+.measure_list_all_item {
+	width: 100%;
+	height: 18%;
+}
+.measure_list_item {
+	width: 100% !important;
+	height: 100% !important;
+}
+.measure_list_th {
+	width: 100% !important;
+	height: 14% !important;
+	border-left: 0 !important;
+}
+.list_u-th, .list_u-td {
+	border-right: 0 !important;
+	height: 100% !important;
+}
+.list_u-td {
+	border-bottom: 0 !important;
+}
+.list_u-tr {
+	width: 100% !important;
+	height: 100% !important;
+}
+.u_td, .u_th {
+	border-right: 0 !important;
+}
