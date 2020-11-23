@@ -18,22 +18,56 @@
 					<u-td class="oil_day_td" width="15%">较月平均</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">合计</u-td>
-					<u-td class="oil_day_td" width="14%">320</u-td>
-					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="15%" style="color: #e65a40;font-weight: bold;">+126</u-td>
-					<u-td class="oil_day_td" width="15%" style="color: #22b573;font-weight: bold;">-86</u-td>
+					<u-td class="oil_day_td" width="20%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="14%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.openNum}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toMonth}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toMonth}}</span>
+					</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr" v-for="(item, index) in oilDayData" :key="index">
-					<u-td class="oil_day_td" width="20%">{{item.oilStationName}}</u-td>
-					<u-td class="oil_day_td" width="14%">{{item.openNum}}</u-td>
-					<u-td class="oil_day_td" width="18%"><span>{{item.oilPlan}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="18%"><span>{{item.oilFact}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">+{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">+{{item.toMonth}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toMonth}}</u-td>
+					<u-td class="oil_day_td" width="20%">
+						<span @click="wellDetails(item)">{{item.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="14%">
+						<span @click="wellDetails(item)">{{item.openNum}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.toMonth}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.toMonth}}</span>
+					</u-td>
 				</u-tr>
 			</u-table>
 		</view>
@@ -53,7 +87,9 @@
 			return {
 				calendarShow: false,
 				pixelRatio: 1,
-				oilDayData: []
+				oilDayDataSum: {},
+				oilDayData: [],
+				oilColumnData: {}
 			}
 		},
 		methods: {
@@ -83,7 +119,7 @@
 						disableGrid: true,
 					},
 					yAxis: {
-						data: [{min: 0,max: 50}],
+						data: [{min: 5000,max: 12500}],
 						disableGrid: true
 					},
 					dataLabel: false,
@@ -107,21 +143,32 @@
 						}
 					}
 				});
+			},
+			wellDetails(data) {
+				const oilData = {
+					categories: ["总计", "旧井", "新井", "措施井"],
+					series: [{
+						"name": "计划",
+						"data": [data.oilPlan, 11520, 9512.5, 7518.56]
+						}, {
+						"name": "实际",
+						"data": [data.oilFact, 10516, 9515.6, 8510.5]
+					}],
+					animation: true
+				};
+				canvaColumn.updateData(oilData);
 			}
 		},
 		onLoad() {
 			_self = this;
-			let oilColumnData = {
-				categories: ["总计", "旧井", "新井", "措施井"],
-				series: [{
-					"name": "计划",
-					"data": [15, 45, 37, 43]
-					}, {
-					"name": "实际",
-					"data": [10, 40, 34, 18]
-				}]
+			_self.oilDayDataSum = {
+				oilStationName: '合计',
+				openNum: 320,
+				oilPlan: 12345,
+				oilFact:12355,
+				toYesterday: 125,
+				toMonth: -86
 			};
-			_self.showClumn("oilDayColumn", oilColumnData);
 			// 完成情况
 			_self.oilDayData = [
 				{
@@ -204,7 +251,18 @@
 					toYesterday: -28,
 					toMonth: 47
 				},
-			]
+			];
+			_self.oilColumnData = {
+				categories: ["总计", "旧井", "新井", "措施井"],
+				series: [{
+					"name": "计划",
+					"data": [12345, 11520, 9512.5, 7518.56]
+					}, {
+					"name": "实际",
+					"data": [12355, 10516, 9515.6, 8510.5]
+				}]
+			};
+			_self.showClumn("oilDayColumn", _self.oilColumnData);
 		}
 	}
 </script>

@@ -1,7 +1,7 @@
-.oil_year {
+.water_single {
 	width: 100%;
 }
-.oil_page_title {
+.water_single_page_title {
 	background: #cfd8e9;
 	width: 100%;
 	height: 60rpx;
@@ -13,48 +13,33 @@
 	top: 1%;
 	left: 80%;
 }
-.oil_year_top {
+.single_abnormal {
 	width: 100%;
-	height: 320upx;
+	height: 400rpx;
 	padding: 2% 2%;
 }
-.oil_year_top_table {
-	width: 96%;
-	height: 96%;
-}
-.oil_year_top_tr {
-	width: 100%;
-	height: 50%;
-}
-.oil_year_top_td1 {
-	height: 100%;
-}
-.oil_year_top_td2 {
-	height: 100%;
-}
-.oil_year_top_td {
-	width: 50%;
-	height: 100%;
-	font-size: 26rpx !important;
-}
-#oilNowRing,#oilOldRing {
+.u-table {
 	width: 100%;
 	height: 100%;
+}
+.u-tr {
+	width: 100%;
+	height: 16.6%;
 }
 
-.oil_year_details {
+.single_details {
 	width: 100%;
 	padding: 2% 2% 0 2%;
 }
-.oil_year_table {
+.single_table {
 	width: 96%;
 	border-top: 0 !important;
 	border-left: 0 !important;
 }
-.oil_year_tr {
+.single_tr {
 	width: 100%;
 }
-.oil_year_td {
+.single_td {
 	border-right: 0 !important;
 	height: 80rpx !important;
 	font-size: 24rpx !important;

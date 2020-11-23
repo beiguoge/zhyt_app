@@ -95,7 +95,9 @@
 				switch(index) {
 					case '0':
 						uni.navigateTo({
-							url: './product/oil_day/oil_day'
+							url: './product/oil_day/oil_day',
+							animationType: 'pop-in',
+							animationDuration: 600
 						});
 						break;
 					case '1':
@@ -110,7 +112,7 @@
 						break;
 					case '3':
 						uni.navigateTo({
-							url: './product/water_day/water_day'
+							url: './product/water_current/water_current'
 						})
 						break;
 					case '4':

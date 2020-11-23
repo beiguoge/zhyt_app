@@ -7,11 +7,11 @@
 		<u-form class="login_form" :model="form" ref="uForm" @submit="login">
 			<u-form-item class="login_item" :border-bottom="false" prop="username">
 				<u-icon class="login_icon" name="account-fill" color="#f2f2f2" size="38"></u-icon>
-				<u-input class="login_inp" type="text" placeholder="用户名" placeholder-style="color: #999999" v-model="form.username" />
+				<u-input class="login_inp" type="text" :clearable="false" placeholder="用户名" placeholder-style="color: #999999" v-model="form.username" />
 			</u-form-item>
 			<u-form-item class="login_item" :border-bottom="false" prop="password">
 				<u-icon class="login_icon" name="lock-fill" color="#f2f2f2" size="38"></u-icon>
-				<u-input class="login_inp" type="password" placeholder="密码" placeholder-style="color: #999999" :password-icon="false" v-model="form.password" />
+				<u-input class="login_inp" type="password" :clearable="false" placeholder="密码" placeholder-style="color: #999999" :password-icon="false" v-model="form.password" />
 			</u-form-item>
 			<u-checkbox class="remember_me" @change="rememberMeChange" size="30rpx" label-size="28rpx" v-model="rememberMe">自动登录</u-checkbox>
 		</u-form>

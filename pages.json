@@ -146,6 +146,24 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/application/product/water_current/water_current",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "实时注水",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/application/abnormal/water_abnormal/water_abnormal_single",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "单井工况",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 	    "color": "#999999",
