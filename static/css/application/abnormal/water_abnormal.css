@@ -31,22 +31,26 @@
 	padding: 2% 2%;
 }
 
-.u-table {
-	width: 48%;
-	height: 66%;
+.water_abnormal_table {
+	width: 48% !important;
+	height: 100%;
 }
 
-.u-tr {
+.water_abnormal_tr {
 	width: 100%;
-	height: 50%;
+	height: 33.3%;
 }
-.u-td {
+.water_abnormal_td {
 	width: 50%;
 	height: 100%;
 }
-#waterPie {
+.waterPie {
 	width: 48%;
 	height: 96%;
+}
+#waterPie {
+	width: 100%;
+	height: 100%;
 }
 
 .oil_day_details {

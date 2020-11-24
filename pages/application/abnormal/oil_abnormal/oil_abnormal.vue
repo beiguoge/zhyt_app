@@ -29,10 +29,10 @@
 					<u-td class="oil_abnormal_td" width="12%">
 						<span>{{index}}</span>
 					</u-td>
-					<u-td class="oil_abnormal_td" width="28%">
+					<u-td class="oil_abnormal_td" width="22%">
 						<span>{{item.wellNum}}</span>
 					</u-td>
-					<u-td class="oil_abnormal_td" width="22%">
+					<u-td class="oil_abnormal_td" width="28%">
 						<span>{{item.time}}</span>
 					</u-td>
 					<u-td class="oil_abnormal_td" width="38%">
@@ -85,7 +85,6 @@
 					colors: ["#2670f7"],
 					fontSize: 11,
 					background: '#FFFFFF',
-					padding: [0, 0, 0, 0],
 					animation: false,
 					categories: chartData.categories,
 					series: chartData.series,
@@ -94,11 +93,11 @@
 					},
 					yAxis: {
 						data: [{min: 0,max: 50}],
-						gridType: 'dash'
+						disableGrid: true,
 					},
 					dataLabel: true,
-					width: uni.upx2px(600)*_self.pixelRatio,
-					height: uni.upx2px(300)*_self.pixelRatio,
+					width: uni.upx2px(640)*_self.pixelRatio,
+					height: uni.upx2px(320)*_self.pixelRatio,
 					extra: {
 						column: {
 							width: 14

@@ -8,21 +8,23 @@
 		</u-popup>
 		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
 		<view class="abnormal_all">
-			<u-table class="u-table">
-				<u-tr class="u-tr">
-					<u-td class="u-td">开井</u-td>
-					<u-td class="u-td">{{waterAbnormalData.openNum}}口</u-td>
+			<u-table class="water_abnormal_table">
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">开井</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.openNum}}口</u-td>
 				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">欠注</u-td>
-					<u-td class="u-td">{{waterAbnormalData.oweInjection}}口</u-td>
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">欠注</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.oweInjection}}口</u-td>
 				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">超注</u-td>
-					<u-td class="u-td">{{waterAbnormalData.moreInjection}}口</u-td>
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">超注</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.moreInjection}}口</u-td>
 				</u-tr>
 			</u-table>
-			<canvas canvas-id="waterPie" id="waterPie" />
+			<view class="waterPie">
+				<canvas canvas-id="waterPie" id="waterPie" />
+			</view>
 		</view>
 		<PageTitle title_left_text="工况详情" title_right_text="" />
 		<view class="oil_day_details">

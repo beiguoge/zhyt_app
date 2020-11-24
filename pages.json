@@ -164,6 +164,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/video/video_details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "采油站",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 	    "color": "#999999",

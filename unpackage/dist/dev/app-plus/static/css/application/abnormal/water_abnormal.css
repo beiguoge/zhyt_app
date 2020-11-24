@@ -3,36 +3,70 @@
 }
 
 .abnormal_page_title {
-	background: #F1F1F1;
+	background: #cfd8e9;
 	width: 100%;
-	height: 80rpx;
+	height: 60rpx;
 	padding: 0 4%;
 	padding-right: 9%;
 }
 .title_calendar {
 	position: absolute;
-	top: 2%;
+	top: 1%;
 	left: 80%;
 }
 	
 .title_dept {
-	width: 17%;
+	width: 18%;
 	height: 3%;
 	position: absolute;
-	top: 2%;
+	top: 1%;
 	left: 54%;
 }
 
 .abnormal_all {
 	width: 100%;
-	height: 300upx;
+	height: 280upx;
 	display: flex;
 	flex-direction: row;
-	padding: 1% 2%;
+	padding: 2% 2%;
 }
 
-.u-table {
-	width: 40%;
-	height: 50%;
-	margin-top: 8%;
+.water_abnormal_table {
+	width: 48% !important;
+	height: 100%;
+}
+
+.water_abnormal_tr {
+	width: 100%;
+	height: 33.3%;
+}
+.water_abnormal_td {
+	width: 50%;
+	height: 100%;
+}
+.waterPie {
+	width: 48%;
+	height: 96%;
+}
+#waterPie {
+	width: 100%;
+	height: 100%;
+}
+
+.oil_day_details {
+	width: 100%;
+	padding: 2% 2% 0 2%;
+}
+.oil_day_table {
+	width: 96%;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
+.oil_day_tr {
+	width: 100%;
+}
+.oil_day_td {
+	border-right: 0 !important;
+	height: 80rpx !important;
+	font-size: 24rpx !important;
 }

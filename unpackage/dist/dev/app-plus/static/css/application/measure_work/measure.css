@@ -3,15 +3,15 @@
 }
 
 .oil_page_title {
-	background: #F1F1F1;
+	background: #cfd8e9;
 	width: 100%;
-	height: 80rpx;
+	height: 60rpx;
 	padding: 0 4%;
 	padding-right: 9%;
 }
 .title_calendar {
 	position: absolute;
-	top: 2%;
+	top: 1%;
 	left: 80%;
 }
 	
@@ -19,7 +19,7 @@
 	width: 17%;
 	height: 3%;
 	position: absolute;
-	top: 2%;
+	top: 1%;
 	left: 54%;
 }
 
@@ -45,39 +45,28 @@
 	width: 100% !important;
 	height: 25% !important;
 }
+.u-td {
+	font-size: 26rpx !important;
+}
 
 .measure_all_list {
 	width: 100%;
-	height: 500upx;
+	padding: 0 2%;
 }
-.measure_all_scroll {
+.measure_list_table,.measure_details_table {
 	width: 100%;
-	height: 72%;
-}
-.measure_list_all_item {
-	width: 100%;
-	height: 18%;
-}
-.measure_list_item {
-	width: 100% !important;
-	height: 100% !important;
-}
-.measure_list_th {
-	width: 100% !important;
-	height: 14% !important;
 	border-left: 0 !important;
 }
-.list_u-th, .list_u-td {
+.list_u-tr,.details_u_tr {
+	width: 100%;
+}
+.list_u-td,.list_u-th,.details_u-th,.details_u_td {
 	border-right: 0 !important;
-	height: 100% !important;
+	height: 70rpx !important;
+	font-size: 24rpx !important;
 }
-.list_u-td {
-	border-bottom: 0 !important;
-}
-.list_u-tr {
-	width: 100% !important;
-	height: 100% !important;
-}
-.u_td, .u_th {
-	border-right: 0 !important;
+
+.measure_all_details {
+	width: 100%;
+	padding: 0 1%;
 }

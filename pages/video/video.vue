@@ -2,22 +2,16 @@
 	<view class="video">
 		<u-search class="video_search" @custom="search" @search="search" shape="round" search-icon-color="#0c2461" placeholder="请输入井场名" v-model="oilWell" />
 		<view class="video_team">
-			<view class="video_list" v-for="(item,indexSub) in oilTeam" :key="indexSub">
-				<view class="video_item" v-if="indexSub === 0">
-					<image class="video_team_icon" src="../../static/image/video/oil_team.png" />
-					<u-section class="video_team_text" :title="item.departmentName" :right="false" :show-line="false" :arrow="false" />
-					<u-icon name="arrow-down" color="#2979ff" size="30" />
-				</view>
-				<view class="video_item" v-else>
-					<image class="video_team_icon" src="../../static/image/video/oil_team.png" />
-					<u-section class="video_team_text" :title="item.departmentName" sub-title="" :show-line=false :arrow="true" />
-				</view>
-				<view class="video_item_children" v-if="indexSub === 0" v-for="(item,index) in oilStation" :key="index" @click="detailsVideo(index)">
-					<image class="video_team_children_icon" src="../../static/image/video/oil_station.png" />
-					<u-section class="video_team_text" :title="item.departmentName" sub-title="" :show-line=false :arrow="true" />
-				</view>
-			</view>
+			<u-collapse :head-style="headStyle">
+				<u-collapse-item :title="item.departmentName" :open="true" v-for="(item, index) in oilTeam" :key="index">
+					<view class="video_item" v-for="(itemX,indexX) in item.children" :key="indexX" @click="detailsVideo(itemX)">
+						<image class="video_item_icon" src="../../static/image/video/oil_station.png" />
+						<u-section class="video_item_text" :title="itemX.departmentName" sub-title="" :show-line=false :arrow="true" />
+					</view>
+				</u-collapse-item>
+			</u-collapse>
 		</view>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -27,23 +21,52 @@
 			return {
 				oilWell: "",
 				oilTeam: [],
-				oilStation: []
+				headStyle: {
+					fontSize: '28rpx',
+					fontWeight: 'bold',
+					paddingLeft: '4%',
+					paddingRight: '2%',
+					background: '#f3f4f6',
+					height: '85rpx'
+				}
 			}
 		},
 		methods: {
 			oilTeamInit() {
 				this.getRequest('/system/department/getDepartmentTree').then(res => {
 					this.oilTeam = res.data;
-					if(res.data.length < 5) {
-						this.oilStation = res.data[0].children;
-					}
 				})
 			},
 			search(value) {
-				console.log("search结果" + value);
+				let videos = this.oilTeam[0].children;
+				let that = this;
+				if(value === '' || value === null) {
+					that.$refs.uToast.show({
+						title: '请输入井场名',
+						type: 'warning',
+						icon: false
+					})
+				} else {
+					for (let i = 0; i < videos.length; i++) {
+						if(value === videos[i].departmentName) {
+							uni.navigateTo({
+								url: 'video_details?stationName=' + value
+							})
+						}
+						if(i === videos.length-1 && value !== videos[i].departmentName) {
+							that.$refs.uToast.show({
+								title: '暂无搜索结果',
+								type: 'error',
+								icon: false
+							})
+						}
+					}
+				}
 			},
-			detailsVideo(index) {
-				console.log(index);
+			detailsVideo(data) {
+				uni.navigateTo({
+					url: 'video_details?stationName=' + data.departmentName
+				})
 			}
 		},
 		onLoad() {
@@ -53,5 +76,5 @@
 </script>
 
 <style>
- @import url("/static/css/video/video.css");
+	@import url("/static/css/video/video.css");
 </style>
