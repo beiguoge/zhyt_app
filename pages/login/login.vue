@@ -53,10 +53,7 @@
 		},
 		methods: {
 			login() {
-				uni.switchTab({
-					url: '../index/index'
-				})
-				/* let that = this;
+				let that = this;
 				this.$refs.uForm.validate(valid => {
 					if(valid) {
 						this.postRequest('/login',{username: this.form.username, password: this.form.password}).then(res => {
@@ -81,7 +78,7 @@
 							})
 						});
 					}
-				}) */
+				})
 			},
 			rememberMeChange(e) {
 				this.rememberMe = e.value;
