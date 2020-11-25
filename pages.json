@@ -4,7 +4,15 @@
 		},
 	"pages": [
 		{
-		    "path" : "pages/login/login",
+			"path" : "pages/login/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/welcome/welcome",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
@@ -169,6 +177,15 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "采油站",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video/video_watch",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             

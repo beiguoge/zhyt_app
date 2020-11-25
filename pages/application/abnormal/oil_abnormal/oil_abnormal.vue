@@ -13,10 +13,10 @@
 		<PageTitle title_left_text="异常明细" title_right_text="" />
 		<view class="oil_abnormal_details">
 			<view class="details_top">
-				<u-button class="details_btn" type="primary">液量</u-button>
-				<u-button class="details_btn" type="primary" :plain="true">含水</u-button>
-				<u-button class="details_btn" type="primary" :plain="true">动液面</u-button>
-				<u-button class="details_btn" type="primary" :plain="true">工况</u-button>
+				<u-button class="details_btn" type="primary" :plain="liquidPlain" @click="showLiquidLine">液量</u-button>
+				<u-button class="details_btn" type="primary" :plain="waterCutPlain" @click="showWaterCutLine">含水</u-button>
+				<u-button class="details_btn" type="primary" :plain="movingLiquidPlain" @click="showMovingLiquid">动液面</u-button>
+				<u-button class="details_btn" type="primary" :plain="abnormalPlain" @click="showAbnormalGT">工况</u-button>
 			</view>
 			<u-table class="oil_abnormal_table" border-color="#999999" padding="0 0">
 				<u-tr class="oil_abnormal_tr">
@@ -27,20 +27,27 @@
 				</u-tr>
 				<u-tr class="oil_abnormal_tr" v-for="(item, index) in oilDetailsData" :key="index">
 					<u-td class="oil_abnormal_td" width="12%">
-						<span>{{index}}</span>
+						<span @click="wellDetails(item)">{{index+1}}</span>
 					</u-td>
 					<u-td class="oil_abnormal_td" width="22%">
-						<span>{{item.wellNum}}</span>
+						<span @click="wellDetails(item)">{{item.wellNum}}</span>
 					</u-td>
 					<u-td class="oil_abnormal_td" width="28%">
-						<span>{{item.time}}</span>
+						<span @click="wellDetails(item)">{{item.time}}</span>
 					</u-td>
 					<u-td class="oil_abnormal_td" width="38%">
-						<span>{{item.warningGist}}</span>
+						<span @click="wellDetails(item)">{{item.warningGist}}</span>
 					</u-td>
 				</u-tr>
 			</u-table>
+			<view class="bottom_chart">
+				<view class="oil_station_name">{{oilStation}}</view>
+				<view class="oilLine">
+					<canvas canvas-id="bottomLine" id="bottomLine" @touchstart="touchLine" />
+				</view>
+			</view>
 		</view>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -49,6 +56,7 @@
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaColumn = null;
+	var canvaLine = null;
 	export default {
 		components: {
 			PageTitle
@@ -67,7 +75,14 @@
 				},
 				pixelRatio: 1,
 				oilDetailsData: [],
-				oilAbnormalColumnData: {}
+				oilAbnormalColumnData: {},
+				liquidLineData: {},
+				oilStation: '定-1768—近一周产液量曲线',
+				showFlag: 1,
+				liquidPlain: false,
+				waterCutPlain: true,
+				movingLiquidPlain: true,
+				abnormalPlain: true,
 			}
 		},
 		methods: {
@@ -104,6 +119,136 @@
 						}
 					}
 				});
+			},
+			showLine(canvasId, chartData) {
+				canvaLine = new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'line',
+					fontSize: 11,
+					legend:{
+						show: false,
+					},
+					dataLabel: false,
+					dataPointShape: true,
+					background: '#FFFFFF',
+					pixelRatio: _self.pixelRatio,
+					categories: chartData.categories,
+					series: chartData.series,
+					animation: true,
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						gridType: 'dash',
+						gridColor: '#CCCCCC',
+						dashLength: 4,
+						splitNumber: 5,
+						min: 10,
+						max: 140,
+					},
+					width: uni.upx2px(720)*_self.pixelRatio,
+					height: uni.upx2px(400)*_self.pixelRatio,
+					extra: {
+						line:{
+							type: 'curve',
+							// type: 'straight',
+							width: 1
+						}
+					}
+				})
+			},
+			touchLine(e) {
+				canvaLine.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
+			wellDetails(oilStation, categories, series) {
+				if(this.showFlag === 1) {
+					this.oilStation = oilStation.wellNum + '—近一周产液量曲线';
+					categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周天'],
+					series = [{
+						name: '产液量',
+						data: [60, 30, 75, 90, 44, 68, 70],
+						color: '#57c5d9'
+					}];
+				} else if(this.showFlag === 2) {
+					this.oilStation = oilStation.wellNum + '—近一周含水曲线';
+					categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周天'],
+					series = [{
+						name: '含水',
+						data: [60, 30, 75, 90, 44, 68, 70],
+						color: '#2670f7'
+					}];
+				} else if(this.showFlag === 3) {
+					this.oilStation = oilStation.wellNum + '—不同时段动液面曲线';
+					categories = ['00:00-12:00', '12:00-18:00', '18:00-20:00', '20:00-24:00'],
+					series = [{
+						name: '动液面',
+						data: [60, 30, 75, 90],
+						color: '#e65a40'
+					}];
+				}
+				const lineData = {
+					categories: categories,
+					series: series,
+					animation: true
+				};
+				canvaLine.updateData(lineData);
+			},
+			showLiquidLine() {
+				this.liquidPlain = false;
+				this.waterCutPlain = true;
+				this.movingLiquidPlain = true;
+				this.abnormalPlain = true;
+				this.showFlag = 1;
+				const oilStation = {wellNum: '定-1768'};
+				const categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周天'];
+				const series = [{
+					name: '产液量',
+					data: [60, 30, 75, 90, 44, 68, 70],
+					color: '#57c5d9'
+				}];
+				this.wellDetails(oilStation, categories, series);
+			},
+			showWaterCutLine() {
+				this.liquidPlain = true;
+				this.waterCutPlain = false;
+				this.movingLiquidPlain = true;
+				this.abnormalPlain = true;
+				this.showFlag = 2;
+				const oilStation = {wellNum: '定-1768'};
+				const categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周天'];
+				const series = [{
+					name: '含水',
+					data: [60, 30, 75, 90, 44, 68, 70],
+					color: '#2670f7'
+				}];
+				this.wellDetails(oilStation, categories, series);
+			},
+			showMovingLiquid() {
+				this.liquidPlain = true;
+				this.waterCutPlain = true;
+				this.movingLiquidPlain = false;
+				this.abnormalPlain = true;
+				this.showFlag = 3;
+				const oilStation = {wellNum: '定-1768'};
+				const categories = ['00:00-12:00', '12:00-18:00', '18:00-20:00', '20:00-24:00'];
+				const series = [{
+					name: '动液面',
+					data: [60, 30, 75, 90],
+					color: '#e65a40'
+				}];
+				this.wellDetails(oilStation, categories, series);
+			},
+			showAbnormalGT() {
+				this.$refs.uToast.show({
+					title: '暂不支持该功能',
+					type: 'warning',
+					icon: false
+				})
 			}
 		},
 		onLoad() {
@@ -153,6 +298,15 @@
 				}]
 			};
 			_self.showClumn("oilAbnormalColumn", _self.oilAbnormalColumnData);
+			_self.liquidLineData = {
+				categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周天'],
+				series: [{
+					name: '产液量',
+					data: [70, 40, 65, 100, 44, 68, 70],
+					color: '#57c5d9'
+				}]
+			};
+			_self.showLine("bottomLine", _self.liquidLineData);
 		}
 	}
 </script>

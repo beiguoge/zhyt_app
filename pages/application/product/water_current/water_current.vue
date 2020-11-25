@@ -112,7 +112,7 @@
 			}
 		},
 		methods: {
-			showRing(canvasId, chartData, color, title) {
+			showRing(canvasId, chartData, color, title, subtitle) {
 				canvaRing = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
@@ -123,7 +123,12 @@
 					title: {
 						name: title,
 						color: color,
-						fontSize: 10*_self.pixelRatio
+						fontSize: 9*_self.pixelRatio
+					},
+					subtitle: {
+						name: subtitle,
+						color: color,
+						fontSize: 8*_self.pixelRatio
 					},
 					background:'#FFFFFF',
 					colors: [color, '#e6e6e6'],
@@ -156,24 +161,24 @@
 			};
 			let waterCurrentRingData = {
 				series: [{
-					"name": "年计划",
-					"data": _self.waterCurrentData.yearPlan
+					"name": "实际进度",
+					"data": 34.7
 				}, {
-					"name": "年产量",
-					"data": _self.waterCurrentData.yearFact
+					"name": "总进度",
+					"data": 100
 				}]
 			};
-			_self.showRing("waterCurrentRing", waterCurrentRingData, '#2670f7', _self.waterCurrentData.yearPlan+"吨");
+			_self.showRing("waterCurrentRing", waterCurrentRingData, '#2670f7', '34.7%', '时间进度');
 			let waterWarningRingData = {
 				series: [{
-					"name": "同期产量",
-					"data": _self.waterCurrentData.sameTimeYield
+					"name": "实际进度",
+					"data": 34.7
 				}, {
-					"name": "比去年",
-					"data": _self.waterCurrentData.toLastYear
+					"name": "总进度",
+					"data": 100
 				}]
 			};
-			_self.showRing("waterWarningRing", waterWarningRingData, "#e65a40", _self.waterCurrentData.sameTimeYield+"吨");
+			_self.showRing("waterWarningRing", waterWarningRingData, "#e65a40", '34.7%', '注水进度');
 			// 完成情况
 			_self.waterDetailsData = [
 				{

@@ -1,6 +1,22 @@
 <script>
 	export default {
 		onLaunch: function() {
+			let userInfo = uni.getStorageSync('userInfo');
+			if(userInfo === null || userInfo === '') {
+				setTimeout(
+					function() {
+						uni.redirectTo({
+							url: '../login/login'
+						})
+					}, 2000);
+			} else {
+				setTimeout(
+					function() {
+						uni.switchTab({
+							url: '../index/index'
+						})
+					}, 2000);
+			}
 		},
 		onShow: function() {
 		},

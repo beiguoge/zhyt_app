@@ -76,6 +76,7 @@
 				<view class="grid-text">视频诊断知识库</view>
 			</u-grid-item>
 		</u-grid>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -95,9 +96,7 @@
 				switch(index) {
 					case '0':
 						uni.navigateTo({
-							url: './product/oil_day/oil_day',
-							animationType: 'pop-in',
-							animationDuration: 600
+							url: './product/oil_day/oil_day'
 						});
 						break;
 					case '1':
@@ -126,8 +125,22 @@
 						})
 						break;
 					case '6':
-						uni.navigateTo({
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
+						})
+						/* uni.navigateTo({
 							url: './product/water_year/water_year'
+						}) */
+						break;
+					case '7':
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
 						})
 						break;
 					case '8':
@@ -140,6 +153,14 @@
 							url: './abnormal/water_abnormal/water_abnormal'
 						})
 						break;
+					case '10':
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
+						})
+						break;
 					case '11':
 						uni.navigateTo({
 							url: './measure_work/work_down/work_down'
@@ -148,6 +169,30 @@
 					case '12':
 						uni.navigateTo({
 							url: './measure_work/measure/measure'
+						})
+						break;
+					case '13':
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
+						})
+						break;
+					case '14':
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
+						})
+						break;
+					case '15':
+						this.$refs.uToast.show({
+							title: '模块正在建设中!',
+							type: 'error',
+							icon: false,
+							duration: 1000
 						})
 						break;
 				}

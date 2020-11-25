@@ -101,6 +101,10 @@
 					</u-td>
 				</u-tr>
 			</u-table>
+			<view class="oil_station_name">{{oilStation}}—近5年产油柱状图</view>
+			<view class="oil_column">
+				<canvas canvas-id="oilYearColumn" id="oilYearColumn" @touchstart="touchColumn" />
+			</view>
 		</view>
 	</view>
 </template>
@@ -109,7 +113,8 @@
 	import PageTitle from "../../../../common/page_title/page_title.vue";
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
-	var canvaRing;
+	var canvaRing = null;
+	var canvaColumn = null;
 	export default {
 		components: {
 			PageTitle
@@ -119,7 +124,9 @@
 				calendarShow: false,
 				pixelRatio: 1,
 				oilYearData: {},
-				oilDetailsData: []
+				oilDetailsData: [],
+				oilColumnData: {},
+				oilStation: '合计'
 			}
 		},
 		methods: {
@@ -157,8 +164,63 @@
 					}
 				})
 			},
+			showClumn(canvasId, chartData) {
+				canvaColumn = new uCharts({
+					$this: this,
+					canvasId: canvasId,
+					type: 'column',
+					legend: {
+						show:true
+					},
+					colors: ["#2670f7", "#57c5d9"],
+					fontSize: 11,
+					background: '#FFFFFF',
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid: true,
+					},
+					yAxis: {
+						data: [{min: 5000,max: 12500}],
+						disableGrid: true
+					},
+					dataLabel: false,
+					width: uni.upx2px(720)*_self.pixelRatio,
+					height: uni.upx2px(400)*_self.pixelRatio,
+					extra: {
+						column: {
+							type:'group',
+							width: 12
+						}
+					}
+				});
+			},
+			touchColumn(e) {
+				canvaColumn.showToolTip(e, {
+					format: function (item, category) {
+						if(typeof item.data === 'object'){
+							return item.name + ': ' + item.data.value + '吨';
+						}else{
+							return item.name + ': ' + item.data + '吨';
+						}
+					}
+				});
+			},
 			wellDetails(data) {
-				console.log(data)
+				this.oilStation = data.oilStationName;
+				const oilData = {
+					categories: ["2016", "2017", "2018", "2019", "2020"],
+					series: [{
+						"name": "计划",
+						"data": [12045, 10520, 9512.5, 7518.56, 12130.5]
+						}, {
+						"name": "实际",
+						"data": [12155, 11516, 9515.6, 8510.5, 12005]
+					}],
+					animation: true
+				};
+				canvaColumn.updateData(oilData);
 			}
 		},
 		onLoad() {
@@ -275,6 +337,17 @@
 					toLastYear: 47
 				},
 			]
+			_self.oilColumnData = {
+				categories: ["2016", "2017", "2018", "2019", "2020"],
+				series: [{
+					"name": "计划",
+					"data": [12345, 11520, 9512.5, 7518.56, 12130.5]
+					}, {
+					"name": "实际",
+					"data": [12355, 10516, 9515.6, 8510.5, 12005]
+				}]
+			};
+			_self.showClumn("oilYearColumn", _self.oilColumnData);
 		}
 	}
 </script>

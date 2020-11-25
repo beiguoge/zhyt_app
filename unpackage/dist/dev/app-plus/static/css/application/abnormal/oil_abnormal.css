@@ -16,8 +16,6 @@
 }
 	
 .title_dept {
-	width: 17%;
-	height: 3%;
 	position: absolute;
 	top: 1%;
 	left: 54%;
@@ -61,4 +59,21 @@
 	border-right: 0 !important;
 	height: 80rpx !important;
 	font-size: 24rpx !important;
+}
+
+.bottom_chart {
+	width: 100%;
+	height: 450rpx;
+}
+.oil_station_name {
+	width: 100%;
+	height: 50rpx;
+	text-align: center;
+	font-size: 26rpx;
+	font-weight: bold;
+	margin-top: 2%;
+}
+.bottom_chart,#bottomLine {
+	width: 100%;
+	height: 400rpx;
 }

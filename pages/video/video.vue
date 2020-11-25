@@ -51,7 +51,8 @@
 						if(value === videos[i].departmentName) {
 							uni.navigateTo({
 								url: 'video_details?stationName=' + value
-							})
+							});
+							break;
 						}
 						if(i === videos.length-1 && value !== videos[i].departmentName) {
 							that.$refs.uToast.show({

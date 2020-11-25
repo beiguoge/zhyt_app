@@ -15,7 +15,11 @@
 			}
 		},
 		methods: {
-			
+			detailsVideo(video) {
+				uni.navigateTo({
+					url: './video_watch?videoName=' + video.videoName
+				})
+			}
 		},
 		onLoad:function(option){
 			uni.setNavigationBarTitle({

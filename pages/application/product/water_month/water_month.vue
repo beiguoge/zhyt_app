@@ -64,6 +64,10 @@
 					</u-td>
 				</u-tr>
 			</u-table>
+			<view class="oil_station_name">{{oilStation}}—12个月注水曲线</view>
+			<view class="oilLine">
+				<canvas canvas-id="waterMonthLine" id="waterMonthLine" @touchstart="touchLine" />
+			</view>
 		</view>
 	</view>
 </template>
@@ -73,6 +77,7 @@
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaColumn = null;
+	var canvaLine = null;
 	export default {
 		components: {
 			PageTitle
@@ -83,7 +88,9 @@
 				pixelRatio: 1,
 				waterDayDataSum: {},
 				waterDayData: [],
-				waterColumnData: {}
+				waterColumnData: {},
+				waterLineData: {},
+				oilStation: '合计'
 			}
 		},
 		methods: {
@@ -138,19 +145,67 @@
 					}
 				});
 			},
+			showLine(canvasId, chartData) {
+				canvaLine = new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'line',
+					fontSize: 11,
+					legend:{
+						show: true,
+					},
+					dataLabel: false,
+					dataPointShape: true,
+					background: '#FFFFFF',
+					pixelRatio: _self.pixelRatio,
+					categories: chartData.categories,
+					series: chartData.series,
+					animation: true,
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						gridType: 'dash',
+						gridColor: '#CCCCCC',
+						dashLength: 4,
+						splitNumber: 5,
+						min: 10,
+						max: 140,
+					},
+					width: uni.upx2px(720)*_self.pixelRatio,
+					height: uni.upx2px(400)*_self.pixelRatio,
+					extra: {
+						line:{
+							type: 'curve',
+							// type: 'straight',
+							width: 1
+						}
+					}
+				})
+			},
+			touchLine(e) {
+				canvaLine.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
 			wellDetails(data) {
-				const oilData = {
-					categories: ["总计", "转注", "投注"],
+				this.oilStation = data.oilStationName;
+				const waterData = {
+					categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
 					series: [{
-						"name": "计划",
-						"data": [data.injectionPlanMonth, 11520, 9512.5]
-						}, {
-						"name": "实际",
-						"data": [data.injectionFactMonth, 10516, 9515.6]
+						name: '配注',
+						data: [35, 60, 25, 37, 4, 20, 35, 20, 61, 37, 47, 20],
+						color: '#2670f7'
+					}, {
+						name: '实注',
+						data: [70, 40, 65, 37, 44, 68, 59, 24, 65, 100, 44, 68],
+						color: '#57c5d9'
 					}],
 					animation: true
 				};
-				canvaColumn.updateData(oilData);
+				canvaLine.updateData(waterData);
 			}
 		},
 		onLoad() {
@@ -257,6 +312,19 @@
 				}]
 			};
 			_self.showClumn("waterColumn", _self.waterColumnData);
+			_self.waterLineData = {
+				categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+				series: [{
+					name: '配注',
+					data: [35, 20, 25, 37, 4, 20, 35, 20, 25, 37, 4, 20],
+					color: '#2670f7'
+				}, {
+					name: '实注',
+					data: [70, 40, 65, 100, 44, 68, 70, 40, 65, 100, 44, 68],
+					color: '#57c5d9'
+				}]
+			};
+			_self.showLine("waterMonthLine", _self.waterLineData);
 		}
 	}
 </script>

@@ -16,34 +16,17 @@
 	top: 8%;
 }
 
-.video_list {
-	width: 100%;
-}
-
-.video_item, .video_item_children {
+.video_item {
 	width: 100%;
 	height: 80upx;
 	display: flex;
 	flex-direction: row;
+	padding: 0 6%;
 	border-bottom: 1upx solid #d1d8e0;
 }
 
-.video_item_children {
-	padding-left: 6%;
-}
-
-.video_team_icon {
-	width: 45upx;
-	height: 40upx;
-	margin: 20upx 4%;
-}
-
-.video_team_children_icon{
+.video_item_icon {
 	width: 34upx;
 	height: 35upx;
 	margin: 20upx 4%;
-}
-
-.video_team_text {
-	width: 80% !important;
 }
