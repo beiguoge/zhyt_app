@@ -1,30 +1,62 @@
 <template>
 	<view class="water_abnormal">
-		<u-section class="abnormal_page_title" title="工况汇总" line-color="#0c2461" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#0c2461" size="32upx" label-size="24" label-color="#718093" />
-		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#2979ff" size="22" label-size="24" label-color="#718093" />
+		<u-section class="abnormal_page_title" title="工况汇总" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
+		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
 		<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
 			<view>所有单位</view>
 		</u-popup>
 		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
 		<view class="abnormal_all">
-			<u-table class="u-table">
-				<u-tr class="u-tr">
-					<u-td class="u-td">开井</u-td>
-					<u-td class="u-td">450口</u-td>
+			<u-table class="water_abnormal_table">
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">开井</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.openNum}}口</u-td>
 				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">欠注</u-td>
-					<u-td class="u-td">60口</u-td>
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">欠注</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.oweInjection}}口</u-td>
 				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">超注</u-td>
-					<u-td class="u-td">30口</u-td>
+				<u-tr class="water_abnormal_tr">
+					<u-td class="water_abnormal_td">超注</u-td>
+					<u-td class="water_abnormal_td">{{waterAbnormalData.moreInjection}}口</u-td>
 				</u-tr>
 			</u-table>
-			<canvas canvas-id="waterPie" id="waterPie" class="pie_charts_work" />
+			<view class="waterPie">
+				<canvas canvas-id="waterPie" id="waterPie" />
+			</view>
 		</view>
 		<PageTitle title_left_text="工况详情" title_right_text="" />
+		<view class="oil_day_details">
+			<u-table class="oil_day_table" border-color="#999999" padding="0 0">
+				<u-tr class="oil_day_tr">
+					<u-td class="oil_day_td" width="20%">井号</u-td>
+					<u-td class="oil_day_td" width="20%">注水站</u-td>
+					<u-td class="oil_day_td" width="25%">工况结果</u-td>
+					<u-td class="oil_day_td" width="25%">工况原因</u-td>
+					<u-td class="oil_day_td" width="10%">详情</u-td>
+				</u-tr>
+				<u-tr class="oil_day_tr" v-for="(item, index) in waterAbnormalDetailsData" :key="index">
+					<u-td class="oil_day_td" width="20%">
+						<span>{{item.wellNum}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="20%">
+						<span>{{item.waterStation}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="25%">
+						<span>{{item.result}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="25%">
+						<span>{{item.cause}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="10%">
+						<span @click="wellDetails(item)">
+							<u-icon name="arrow-right-double" color="#22b573" size="28"/>
+						</span>
+					</u-td>
+				</u-tr>
+			</u-table>
+		</view>
 	</view>
 </template>
 
@@ -49,7 +81,9 @@
 					minute: false,
 					second: false
 				},
-				pixelRatio: 1
+				pixelRatio: 1,
+				waterAbnormalData: {},
+				waterAbnormalDetailsData: []
 			}
 		},
 		methods: {
@@ -69,12 +103,12 @@
 						lineHeight: 26,
 					},
 					background:'#FFFFFF',
-					colors: ['#6a89cc', '#e66767', '#78e08f'],
+					colors: ['#2670f7', '#e65a40', '#57c5d9'],
 					pixelRatio:_self.pixelRatio,
 					series: chartData.series,
 					animation: false,
-					width: uni.upx2px(500)*_self.pixelRatio,
-					height: uni.upx2px(320)*_self.pixelRatio,
+					width: uni.upx2px(360)*_self.pixelRatio,
+					height: uni.upx2px(280)*_self.pixelRatio,
 					dataLabel: false,
 					extra: {
 						pie: {
@@ -83,28 +117,103 @@
 						}
 					},
 				});
+			},
+			wellDetails(data) {
+				uni.navigateTo({
+					url: './water_abnormal_single',
+					success:function(res){
+						res.eventChannel.emit('wellData', data)
+					}
+				})
 			}
 		},
 		onLoad() {
 			_self = this;
+			_self.waterAbnormalData = {
+				openNum: 450,
+				oweInjection: 60,
+				moreInjection: 30
+			};
 			let waterPieData= {series:[]};
 			waterPieData.series= [{
 				"name": "正常",
-				"data": 450,
+				"data": _self.waterAbnormalData.openNum,
 				"legendShape": "rect",
-				"format": () => {return 450 + '口'}
+				"format": () => {return _self.waterAbnormalData.openNum + '口'}
 			  }, {
 				"name": "欠注",
-				"data": 60,
+				"data": _self.waterAbnormalData.oweInjection,
 				"legendShape": "rect",
-				"format": () => {return 60 + '口'}
+				"format": () => {return _self.waterAbnormalData.oweInjection + '口'}
 			  }, {
 				"name": "超注",
-				"data": 30,
+				"data": _self.waterAbnormalData.moreInjection,
 				"legendShape": "rect",
-				"format": () => {return 30 + '口'}
+				"format": () => {return _self.waterAbnormalData.moreInjection + '口'}
 			  }];
-			_self.showPie("waterPie", waterPieData)
+			_self.showPie("waterPie", waterPieData);
+			_self.waterAbnormalDetailsData = [
+				{
+					wellNum: "1号井",
+					waterStation: "上蔡渠注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "2号井",
+					waterStation: "1766注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "3号井",
+					waterStation: "上蔡渠注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "4号井",
+					waterStation: "曹伙注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "5号井",
+					waterStation: "上蔡渠注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "6号井",
+					waterStation: "东关注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "7号井",
+					waterStation: "1876注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "8号井",
+					waterStation: "高圈注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "9号井",
+					waterStation: "上蔡渠注水站",
+					result: "油管漏失",
+					cause: "不详"
+				},
+				{
+					wellNum: "10号井",
+					waterStation: "庙沟注水站",
+					result: "油管漏失",
+					cause: "不详"
+				}
+			]
 		}
 	}
 </script>

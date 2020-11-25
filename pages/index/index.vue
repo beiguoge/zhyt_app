@@ -114,6 +114,7 @@
 			</u-table>
 		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -163,7 +164,7 @@
 					"data": 43.25
 				}]
 			};
-			_self.showRing("oilRing", oilRingData, ['#f8841d', '#e6e6e6'], (Math.round(_self.productData.oilData / (_self.productData.oilData+43.25) * 10000) / 100.00)+"%", 200, 200, [-20*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
+			_self.showRing("oilRing", oilRingData, ['#f8841d', '#e6e6e6'], (Math.round(_self.productData.oilData / (_self.productData.oilData+43.25) * 10000) / 100.00)+"%", 200, 200, [-24*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
 			let waterRingData = {
 				series:[{
 					"name": "注水",
@@ -173,7 +174,7 @@
 					"data": 43.25
 				}]
 			};
-			_self.showRing("waterRing", waterRingData, ['#57c5d9', '#e6e6e6'], (Math.round(_self.productData.waterData / (_self.productData.waterData+43.25) * 10000) / 100.00)+"%", 200, 200, [-20*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
+			_self.showRing("waterRing", waterRingData, ['#57c5d9', '#e6e6e6'], (Math.round(_self.productData.waterData / (_self.productData.waterData+43.25) * 10000) / 100.00)+"%", 200, 200, [-24*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
 			// 工况汇总
 			let workRingData = {
 				series: [{
@@ -211,7 +212,7 @@
 					"data": _self.abnormalData.oilAbnormal
 				}]
 			};
-			_self.showRing("oilAbnormalRing", oilAbnormalRingData, ['#e65a40', '#e6e6e6'], (Math.round(_self.abnormalData.oilOpen / (_self.abnormalData.oilOpen+_self.abnormalData.oilAbnormal) * 10000) / 100.00)+"%", 200, 200, [-20*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
+			_self.showRing("oilAbnormalRing", oilAbnormalRingData, ['#e65a40', '#e6e6e6'], (Math.round(_self.abnormalData.oilOpen / (_self.abnormalData.oilOpen+_self.abnormalData.oilAbnormal) * 10000) / 100.00)+"%", 200, 200, [-24*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
 			let waterAbnormalRingData = {
 				series: [{
 					"name": "开井",
@@ -221,7 +222,7 @@
 					"data": _self.abnormalData.waterAbnormal
 				}]
 			};
-			_self.showRing("waterAbnormalRing", waterAbnormalRingData, ["#2670f7", '#e6e6e6'], (Math.round(_self.abnormalData.waterOpen / (_self.abnormalData.waterOpen+_self.abnormalData.waterAbnormal) * 10000) / 100.00)+"%", 200, 200, [-20*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
+			_self.showRing("waterAbnormalRing", waterAbnormalRingData, ["#2670f7", '#e6e6e6'], (Math.round(_self.abnormalData.waterOpen / (_self.abnormalData.waterOpen+_self.abnormalData.waterAbnormal) * 10000) / 100.00)+"%", 200, 200, [-24*_self.pixelRatio,18*_self.pixelRatio,20*_self.pixelRatio,6*_self.pixelRatio], false, 8);
 			// 重点工作
 			_self.workData = {
 				importantData: 20,

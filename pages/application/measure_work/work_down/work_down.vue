@@ -1,8 +1,8 @@
 <template>
 	<view class="work_down">
-		<u-section class="work_down_page_title" title="井下作业" line-color="#0c2461" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#0c2461" size="32upx" label-size="24" label-color="#718093" />
-		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#2979ff" size="22" label-size="24" label-color="#718093" />
+		<u-section class="work_down_page_title" title="井下作业" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
+		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="22" label-size="24" label-color="#000" />
 		<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
 			<view>所有单位</view>
 		</u-popup>
@@ -12,72 +12,57 @@
 			<u-table class="work_down_top_table">
 				<u-tr class="work_down_top_u-tr">
 					<u-td class="work_down_top_u-td">待作业</u-td>
-					<u-td class="work_down_top_u-td">20口</u-td>
+					<u-td class="work_down_top_u-td">{{workDownData[0].toWork}}口</u-td>
 				</u-tr>
 				<u-tr class="work_down_top_u-tr">
 					<u-td class="work_down_top_u-td">作业中</u-td>
-					<u-td class="work_down_top_u-td">18口</u-td>
+					<u-td class="work_down_top_u-td">{{workDownData[0].workIn}}口</u-td>
 				</u-tr>
 				<u-tr class="work_down_top_u-tr">
 					<u-td class="work_down_top_u-td">作业完成</u-td>
-					<u-td class="work_down_top_u-td">14口</u-td>
+					<u-td class="work_down_top_u-td">{{workDownData[0].workFinish}}口</u-td>
 				</u-tr>
 			</u-table>
 		</view>
-		<u-table class="work_down_bottom_table">
-			<u-tr class="work_down_bottom_u-tr">
-				<u-th class="work_down_bottom_u-td">单位</u-th>
-				<u-th class="work_down_bottom_u-td">待作业</u-th>
-				<u-th class="work_down_bottom_u-td">作业中</u-th>
-				<u-th class="work_down_bottom_u-td">作业完成</u-th>
-			</u-tr>
-			<u-tr class="work_down_bottom_u-tr">
-				<u-td class="work_down_bottom_u-td">合计</u-td>
-				<u-td class="work_down_bottom_u-td">20口</u-td>
-				<u-td class="work_down_bottom_u-td">18口</u-td>
-				<u-td class="work_down_bottom_u-td">14口</u-td>
-			</u-tr>
-			<u-tr class="work_down_bottom_u-tr" style="background: #2bcbba;" v-for="x in 6" :key="x" v-if="x%2 === 0">
-				<u-td class="work_down_bottom_u-td">{{ x }}号采油站</u-td>
-				<u-td class="work_down_bottom_u-td">20口</u-td>
-				<u-td class="work_down_bottom_u-td">18口</u-td>
-				<u-td class="work_down_bottom_u-td">14口</u-td>
-			</u-tr>
-			<u-tr class="work_down_bottom_u-tr" v-else>
-				<u-td class="work_down_bottom_u-td">{{ x }}号采油站</u-td>
-				<u-td class="work_down_bottom_u-td">20口</u-td>
-				<u-td class="work_down_bottom_u-td">18口</u-td>
-				<u-td class="work_down_bottom_u-td">14口</u-td>
-			</u-tr>
-		</u-table>
+		<view class="work_down_table2">
+			<u-table class="work_down_bottom_table">
+				<u-tr class="work_down_bottom_u-tr">
+					<u-th class="work_down_bottom_u-td">单位</u-th>
+					<u-th class="work_down_bottom_u-td">待作业</u-th>
+					<u-th class="work_down_bottom_u-td">作业中</u-th>
+					<u-th class="work_down_bottom_u-td">作业完成</u-th>
+				</u-tr>
+				<u-tr class="work_down_bottom_u-tr" v-for="(item, index) in workDownData" :key="index">
+					<u-td class="work_down_bottom_u-td">{{ item.deptName }}</u-td>
+					<u-td class="work_down_bottom_u-td">{{ item.toWork }}</u-td>
+					<u-td class="work_down_bottom_u-td">{{ item.workIn }}</u-td>
+					<u-td class="work_down_bottom_u-td">{{ item.workFinish }}</u-td>
+				</u-tr>
+			</u-table>
+		</view>
 		<PageTitle title_left_text="作业明细" title_right_text="" />
-		<u-table class="work_down_details_table">
-			<u-tr class="work_down_details_u-tr">
-				<u-th class="work_down_details_u-td">序号</u-th>
-				<u-th class="work_down_details_u-td">井号</u-th>
-				<u-th class="work_down_details_u-td">当前任务</u-th>
-				<u-th class="work_down_details_u-td">作业名称</u-th>
-				<u-th class="work_down_details_u-td">详情</u-th>
-			</u-tr>
-			<u-tr class="work_down_details_u-tr" style="background: #2bcbba;" v-for="x in 6" :key="x" v-if="x%2 === 0">
-				<u-td class="work_down_details_u-td">{{ x }}</u-td>
-				<u-td class="work_down_details_u-td">{{ x }}号井</u-td>
-				<u-td class="work_down_details_u-td">待作业</u-td>
-				<u-td class="work_down_details_u-td">正常</u-td>
-				<u-td class="work_down_details_u-td" style="border-bottom: 0;">
-					<u-icon class="details_table_icon" name="arrow-right-double" size="28" top="20" @click="toDetails(x)" />
-				</u-td>
-			</u-tr>
-			<u-tr class="work_down_details_u-tr" v-else>
-				<u-td class="work_down_details_u-td">{{ x }}</u-td>
-				<u-td class="work_down_details_u-td">{{ x }}号井</u-td>
-				<u-td class="work_down_details_u-td">作业完成</u-td>
-				<u-td class="work_down_details_u-td">较差</u-td>
-				<u-td class="work_down_details_u-td" style="border-bottom: 0;">
-					<u-icon class="details_table_icon" name="arrow-right-double" size="28" top="20" @click="toDetails(x)" />
-				</u-td>
-			</u-tr>
-		</u-table>
+		<view class="work_down_details">
+			<u-table class="work_down_details_table" style="border-top: 0;">
+				<u-tr class="work_down_details_u-tr">
+					<u-th class="work_down_details_u-td">序号</u-th>
+					<u-th class="work_down_details_u-td">井号</u-th>
+					<u-th class="work_down_details_u-td">当前任务</u-th>
+					<u-th class="work_down_details_u-td">作业名称</u-th>
+					<u-th class="work_down_details_u-td">详情</u-th>
+				</u-tr>
+				<u-tr class="work_down_details_u-tr" v-for="(item, index) in workDownDetailsData" :key="index">
+					<u-td class="work_down_details_u-td">{{ index }}</u-td>
+					<u-td class="work_down_details_u-td">{{ item.wellNum }}</u-td>
+					<u-td class="work_down_details_u-td">{{item.task}}</u-td>
+					<u-td class="work_down_details_u-td">{{item.taskName}}</u-td>
+					<u-td class="work_down_details_u-td">
+						<span @click="toDetails(item.wellNum)">
+							<u-icon name="arrow-right-double" color="#22b573" size="28" />
+						</span>
+					</u-td>
+				</u-tr>
+			</u-table>
+		</view>
 	</view>
 </template>
 
@@ -92,6 +77,8 @@
 		},
 		data() {
 			return {
+				workDownData: [],
+				workDownDetailsData: [],
 				showDept: false,
 				calendarShow: false,
 				params: {
@@ -117,7 +104,7 @@
 					fontSize: 11,
 					legend:{
 						show: true,
-						lineHeight: 12
+						lineHeight: 18
 					},
 					title: {
 						name: '作业进度',
@@ -125,20 +112,20 @@
 						fontSize: 10*_self.pixelRatio
 					},
 					background:'#FFFFFF',
-					padding: [0*_self.pixelRatio,16*_self.pixelRatio,0*_self.pixelRatio,0*_self.pixelRatio],
+					padding: [8*_self.pixelRatio,0*_self.pixelRatio,0*_self.pixelRatio,0*_self.pixelRatio],
 					colors: colors,
 					pixelRatio:1,
 					series: chartData.series,
 					animation: false,
-					width: uni.upx2px(465)*_self.pixelRatio,
-					height: uni.upx2px(400)*_self.pixelRatio,
+					width: uni.upx2px(420)*_self.pixelRatio,
+					height: uni.upx2px(420)*_self.pixelRatio,
 					disablePieStroke: true,
 					dataLabel: true,
 					extra: {
 						pie: {
 						  offsetAngle: -80,
-						  ringWidth: 20*_self.pixelRatio,
-						  labelWidth: 15
+						  ringWidth: 16*_self.pixelRatio,
+						  labelWidth: 4
 						}
 					}
 				})
@@ -154,27 +141,78 @@
 					}
 				});
 			},
-			toDetails(x) {
+			toDetails(wellName) {
 				uni.navigateTo({
-					url: './work_down_details/work_down_details?id=' + x
+					url: './work_down_details/work_down_details?wellName=' + wellName
 				})
 			}
 		},
 		onLoad() {
 			_self = this;
+			_self.workDownData = [{
+				deptName: '合计',
+				toWork: 20,
+				workIn: 18,
+				workFinish: 14
+			},{
+				deptName: '王圈采油站',
+				toWork: 15,
+				workIn: 12,
+				workFinish: 6
+			},{
+				deptName: '1766采油站',
+				toWork: 34,
+				workIn: 13,
+				workFinish: 24
+			},{
+				deptName: '高伙采油站',
+				toWork: 53,
+				workIn: 23,
+				workFinish: 14
+			},{
+				deptName: '东关增压站',
+				toWork: 21,
+				workIn: 18,
+				workFinish: 4
+			}];
+			_self.workDownDetailsData = [{
+				wellNum: "定-1766",
+				task: '地层勘探',
+				taskName: '钻井'
+			},{
+				wellNum: "定-1234",
+				task: '采油',
+				taskName: '固井'
+			},{
+				wellNum: "定-2144",
+				task: '地层勘探',
+				taskName: '钻井'
+			},{
+				wellNum: "定-1567",
+				task: '地层勘探',
+				taskName: '钻井'
+			},{
+				wellNum: "定-1786",
+				task: '地层勘探',
+				taskName: '钻井'
+			},{
+				wellNum: "定-1921",
+				task: '地层勘探',
+				taskName: '钻井'
+			},];
 			let workRingData = {
 				series: [{
 					"name": "项目计划中",
-					"data": 20
+					"data": _self.workDownData[0].toWork
 					}, {
 					"name": "项目开工",
-					"data": 18
+					"data": _self.workDownData[0].workIn
 					}, {
 					"name": "项目完成",
-					"data": 14
+					"data": _self.workDownData[0].workFinish
 					}]
 			};
-			_self.showRing("workRing", workRingData, ['#45aaf2', '#2bcbba', '#fc5c65']);
+			_self.showRing("workRing", workRingData, ['#2670f7', '#57c5d9', '#e65a40']);
 		}
 	}
 </script>

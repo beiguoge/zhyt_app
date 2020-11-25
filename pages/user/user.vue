@@ -46,6 +46,9 @@
 						})
 						break;
 					case '3':
+						uni.removeStorage({
+							key: 'userInfo'
+						});
 						uni.reLaunch({
 							url: '../login/login'
 						})

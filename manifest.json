@@ -1,5 +1,5 @@
 {
-    "name" : "zhyt",
+    "name" : "油田助手",
     "appid" : "__UNI__BA4925F",
     "description" : "",
     "versionName" : "1.0.0",
@@ -11,13 +11,15 @@
         "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
+            "alwaysShowBeforeRender" : false,
+            "waiting" : false,
             "autoclose" : true,
             "delay" : 0
         },
         /* 模块配置 */
-        "modules" : {},
+        "modules" : {
+            "VideoPlayer" : {}
+        },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -59,7 +61,7 @@
                 "ad" : {}
             },
             "splashscreen" : {
-                "androidStyle" : "default",
+                "androidStyle" : "common",
                 "android" : {
                     "hdpi" : "C:/Users/user/Downloads/logo.png",
                     "xhdpi" : "C:/Users/user/Downloads/logo.png",

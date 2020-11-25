@@ -18,24 +18,62 @@
 					<u-td class="oil_day_td" width="15%">较月平均</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">合计</u-td>
-					<u-td class="oil_day_td" width="14%">320</u-td>
-					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="15%" style="color: #e65a40;font-weight: bold;">+126</u-td>
-					<u-td class="oil_day_td" width="15%" style="color: #22b573;font-weight: bold;">-86</u-td>
+					<u-td class="oil_day_td" width="20%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="14%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.openNum}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toMonth}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toMonth}}</span>
+					</u-td>
 				</u-tr>
 				<u-tr class="oil_day_tr" v-for="(item, index) in oilDayData" :key="index">
-					<u-td class="oil_day_td" width="20%">{{item.oilStationName}}</u-td>
-					<u-td class="oil_day_td" width="14%">{{item.openNum}}</u-td>
-					<u-td class="oil_day_td" width="18%"><span>{{item.oilPlan}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="18%"><span>{{item.oilFact}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">+{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toYesterday}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">+{{item.toMonth}}</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toMonth}}</u-td>
+					<u-td class="oil_day_td" width="20%">
+						<span @click="wellDetails(item)">{{item.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="14%">
+						<span @click="wellDetails(item)">{{item.openNum}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.toYesterday}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.toMonth}}</span>
+					</u-td>
+					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.toMonth}}</span>
+					</u-td>
 				</u-tr>
 			</u-table>
+			<view class="oil_station_name">{{oilStation}}—近15天产油曲线</view>
+			<view class="oilLine">
+				<canvas canvas-id="oilDayLine" id="oilDayLine" @touchstart="touchLine" />
+			</view>
 		</view>
 	</view>
 </template>
@@ -45,6 +83,7 @@
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaColumn = null;
+	var canvaLine = null;
 	export default {
 		components: {
 			PageTitle
@@ -53,7 +92,11 @@
 			return {
 				calendarShow: false,
 				pixelRatio: 1,
-				oilDayData: []
+				oilDayDataSum: {},
+				oilDayData: [],
+				oilColumnData: {},
+				oilLineData: {},
+				oilStation: '合计'
 			}
 		},
 		methods: {
@@ -83,7 +126,7 @@
 						disableGrid: true,
 					},
 					yAxis: {
-						data: [{min: 0,max: 50}],
+						data: [{min: 5000,max: 12500}],
 						disableGrid: true
 					},
 					dataLabel: false,
@@ -107,21 +150,80 @@
 						}
 					}
 				});
+			},
+			showLine(canvasId, chartData) {
+				canvaLine = new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'line',
+					fontSize: 11,
+					legend:{
+						show: true,
+					},
+					dataLabel: false,
+					dataPointShape: true,
+					background: '#FFFFFF',
+					pixelRatio: _self.pixelRatio,
+					categories: chartData.categories,
+					series: chartData.series,
+					animation: true,
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						gridType: 'dash',
+						gridColor: '#CCCCCC',
+						dashLength: 4,
+						splitNumber: 5,
+						min: 10,
+						max: 140,
+					},
+					width: uni.upx2px(720)*_self.pixelRatio,
+					height: uni.upx2px(400)*_self.pixelRatio,
+					extra: {
+						line:{
+							type: 'curve',
+							// type: 'straight',
+							width: 1
+						}
+					}
+				})
+			},
+			touchLine(e) {
+				canvaLine.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
+			wellDetails(data) {
+				this.oilStation = data.oilStationName;
+				const oilData = {
+					categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+					series: [{
+						name: '计划',
+						data: [35, 60, 25, 37, 4, 20, 35, 20, 61, 37, 47, 20, 102, 20, 25],
+						color: '#2670f7'
+					}, {
+						name: '实际',
+						data: [70, 40, 65, 37, 44, 68, 59, 24, 65, 100, 44, 68, 70, 62, 41],
+						color: '#57c5d9'
+					}],
+					animation: true
+				};
+				canvaLine.updateData(oilData);
 			}
 		},
 		onLoad() {
 			_self = this;
-			let oilColumnData = {
-				categories: ["总计", "旧井", "新井", "措施井"],
-				series: [{
-					"name": "计划",
-					"data": [15, 45, 37, 43]
-					}, {
-					"name": "实际",
-					"data": [10, 40, 34, 18]
-				}]
+			_self.oilDayDataSum = {
+				oilStationName: '合计',
+				openNum: 320,
+				oilPlan: 12345,
+				oilFact:12355,
+				toYesterday: 125,
+				toMonth: -86
 			};
-			_self.showClumn("oilDayColumn", oilColumnData);
 			// 完成情况
 			_self.oilDayData = [
 				{
@@ -204,7 +306,31 @@
 					toYesterday: -28,
 					toMonth: 47
 				},
-			]
+			];
+			_self.oilColumnData = {
+				categories: ["总计", "旧井", "新井", "措施井"],
+				series: [{
+					"name": "计划",
+					"data": [12345, 11520, 9512.5, 7518.56]
+					}, {
+					"name": "实际",
+					"data": [12355, 10516, 9515.6, 8510.5]
+				}]
+			};
+			_self.showClumn("oilDayColumn", _self.oilColumnData);
+			_self.oilLineData = {
+				categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+				series: [{
+					name: '计划',
+					data: [35, 20, 25, 37, 4, 20, 35, 20, 25, 37, 4, 20, 35, 20, 25],
+					color: '#2670f7'
+				}, {
+					name: '实际',
+					data: [70, 40, 65, 100, 44, 68, 70, 40, 65, 100, 44, 68, 70, 40, 65],
+					color: '#57c5d9'
+				}]
+			};
+			_self.showLine("oilDayLine", _self.oilLineData);
 		}
 	}
 </script>

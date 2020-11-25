@@ -4,7 +4,15 @@
 		},
 	"pages": [
 		{
-		    "path" : "pages/login/login",
+			"path" : "pages/login/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/welcome/welcome",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
@@ -145,6 +153,42 @@
                 "navigationBarTitleText": "作业进度",
                 "enablePullDownRefresh": false
             }
+        }
+        ,{
+            "path" : "pages/application/product/water_current/water_current",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "实时注水",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/application/abnormal/water_abnormal/water_abnormal_single",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "单井工况",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video/video_details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "采油站",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video/video_watch",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"tabBar": {

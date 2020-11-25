@@ -9,11 +9,11 @@
 					<u-td class="oil_year_top_td1" width="70%">
 						<u-tr class="oil_year_top_tr">
 							<u-td class="oil_year_top_td">年计划</u-td>
-							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;">{{this.oilYearData.yearPlan}}</u-td>
+							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;">{{oilYearData.yearPlan}}</u-td>
 						</u-tr>
 						<u-tr class="oil_year_top_tr">
 							<u-td class="oil_year_top_td" style="border-bottom: 0;">年产量</u-td>
-							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{this.oilYearData.yearYield}}</u-td>
+							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{oilYearData.yearFact}}</u-td>
 						</u-tr>
 					</u-td>
 					<u-td class="oil_year_top_td2" width="30%">
@@ -24,11 +24,11 @@
 					<u-td class="oil_year_top_td1" width="70%">
 						<u-tr class="oil_year_top_tr">
 							<u-td class="oil_year_top_td">同期产量</u-td>
-							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;">{{this.oilYearData.sameTimeYield}}</u-td>
+							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;">{{oilYearData.sameTimeYield}}</u-td>
 						</u-tr>
 						<u-tr class="oil_year_top_tr">
 							<u-td class="oil_year_top_td" style="border-bottom: 0;">比去年</u-td>
-							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{this.oilYearData.toLastYear}}</u-td>
+							<u-td class="oil_year_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{oilYearData.toLastYear}}</u-td>
 						</u-tr>
 					</u-td>
 					<u-td class="oil_year_top_td2" width="30%">
@@ -42,31 +42,69 @@
 			<u-table class="oil_year_table" border-color="#999999" padding="0 0">
 				<u-tr class="oil_year_tr">
 					<u-td class="oil_year_td" width="20%">场站</u-td>
-					<u-td class="oil_year_td" width="14%">开井</u-td>
 					<u-td class="oil_year_td" width="18%">计划产油</u-td>
 					<u-td class="oil_year_td" width="18%">实际产油</u-td>
-					<u-td class="oil_year_td" width="15%">较昨日</u-td>
-					<u-td class="oil_year_td" width="15%">较月平均</u-td>
+					<u-td class="oil_year_td" width="14%">完成率</u-td>
+					<u-td class="oil_year_td" width="15%">日平均</u-td>
+					<u-td class="oil_year_td" width="15%">较去年</u-td>
 				</u-tr>
 				<u-tr class="oil_year_tr">
-					<u-td class="oil_year_td" width="20%">合计</u-td>
-					<u-td class="oil_year_td" width="14%">320</u-td>
-					<u-td class="oil_year_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_year_td" width="18%"><span>12536m<sup>3</sup></span></u-td>
-					<u-td class="oil_year_td" width="15%" style="color: #e65a40;font-weight: bold;">+126</u-td>
-					<u-td class="oil_year_td" width="15%" style="color: #22b573;font-weight: bold;">-86</u-td>
+					<u-td class="oil_year_td" width="20%">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="18%">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.yearPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_year_td" width="18%">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.yearFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_year_td" width="14%">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.completionRate}}%</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-if="oilYearData.yesterdayAvg > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilYearData)">+{{oilYearData.yesterdayAvg}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.yesterdayAvg}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-if="oilYearData.toLastYear > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(oilYearData)">+{{oilYearData.toLastYear}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(oilYearData)">{{oilYearData.toLastYear}}</span>
+					</u-td>
 				</u-tr>
 				<u-tr class="oil_year_tr" v-for="(item, index) in oilDetailsData" :key="index">
-					<u-td class="oil_year_td" width="20%">{{item.oilStationName}}</u-td>
-					<u-td class="oil_year_td" width="14%">{{item.openNum}}</u-td>
-					<u-td class="oil_year_td" width="18%"><span>{{item.oilPlan}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_year_td" width="18%"><span>{{item.oilFact}}m<sup>3</sup></span></u-td>
-					<u-td class="oil_year_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">+{{item.toYesterday}}</u-td>
-					<u-td class="oil_year_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toYesterday}}</u-td>
-					<u-td class="oil_year_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">+{{item.toMonth}}</u-td>
-					<u-td class="oil_year_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">{{item.toMonth}}</u-td>
+					<u-td class="oil_year_td" width="20%">
+						<span @click="wellDetails(item)">{{item.oilStationName}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilPlan}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_year_td" width="18%">
+						<span @click="wellDetails(item)">{{item.oilFact}}m<sup>3</sup></span>
+					</u-td>
+					<u-td class="oil_year_td" width="14%">
+						<span @click="wellDetails(item)">{{item.completionRate}}%</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-if="item.yesterdayAvg > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.yesterdayAvg}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.yesterdayAvg}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-if="item.toLastYear > 0" style="color: #e65a40;font-weight: bold;">
+						<span @click="wellDetails(item)">+{{item.toLastYear}}</span>
+					</u-td>
+					<u-td class="oil_year_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+						<span @click="wellDetails(item)">{{item.toLastYear}}</span>
+					</u-td>
 				</u-tr>
 			</u-table>
+			<view class="oil_station_name">{{oilStation}}—近5年产油柱状图</view>
+			<view class="oil_column">
+				<canvas canvas-id="oilYearColumn" id="oilYearColumn" @touchstart="touchColumn" />
+			</view>
 		</view>
 	</view>
 </template>
@@ -75,7 +113,8 @@
 	import PageTitle from "../../../../common/page_title/page_title.vue";
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
-	var canvaRing;
+	var canvaRing = null;
+	var canvaColumn = null;
 	export default {
 		components: {
 			PageTitle
@@ -85,7 +124,9 @@
 				calendarShow: false,
 				pixelRatio: 1,
 				oilYearData: {},
-				oilDetailsData: []
+				oilDetailsData: [],
+				oilColumnData: {},
+				oilStation: '合计'
 			}
 		},
 		methods: {
@@ -122,14 +163,75 @@
 						}
 					}
 				})
+			},
+			showClumn(canvasId, chartData) {
+				canvaColumn = new uCharts({
+					$this: this,
+					canvasId: canvasId,
+					type: 'column',
+					legend: {
+						show:true
+					},
+					colors: ["#2670f7", "#57c5d9"],
+					fontSize: 11,
+					background: '#FFFFFF',
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid: true,
+					},
+					yAxis: {
+						data: [{min: 5000,max: 12500}],
+						disableGrid: true
+					},
+					dataLabel: false,
+					width: uni.upx2px(720)*_self.pixelRatio,
+					height: uni.upx2px(400)*_self.pixelRatio,
+					extra: {
+						column: {
+							type:'group',
+							width: 12
+						}
+					}
+				});
+			},
+			touchColumn(e) {
+				canvaColumn.showToolTip(e, {
+					format: function (item, category) {
+						if(typeof item.data === 'object'){
+							return item.name + ': ' + item.data.value + '吨';
+						}else{
+							return item.name + ': ' + item.data + '吨';
+						}
+					}
+				});
+			},
+			wellDetails(data) {
+				this.oilStation = data.oilStationName;
+				const oilData = {
+					categories: ["2016", "2017", "2018", "2019", "2020"],
+					series: [{
+						"name": "计划",
+						"data": [12045, 10520, 9512.5, 7518.56, 12130.5]
+						}, {
+						"name": "实际",
+						"data": [12155, 11516, 9515.6, 8510.5, 12005]
+					}],
+					animation: true
+				};
+				canvaColumn.updateData(oilData);
 			}
 		},
 		onLoad() {
 			_self = this;
 			_self.oilYearData = {
-				yearPlan: 2005,
-				yearYield: 2020,
-				sameTimeYield: 2019,
+				oilStationName: '合计',
+				yearPlan: 12536,
+				yearFact: 12524.35,
+				sameTimeYield: 1019,
+				completionRate: 99.5,
+				yesterdayAvg: 126,
 				toLastYear: 105
 			};
 			let oilNowRingData = {
@@ -138,10 +240,10 @@
 					"data": _self.oilYearData.yearPlan
 				}, {
 					"name": "年产量",
-					"data": _self.oilYearData.yearYield
+					"data": _self.oilYearData.yearFact
 				}]
 			};
-			_self.showRing("oilNowRing", oilNowRingData, '#2670f7', "2020吨");
+			_self.showRing("oilNowRing", oilNowRingData, '#2670f7', _self.oilYearData.yearPlan+"吨");
 			let oilOldRingData = {
 				series: [{
 					"name": "同期产量",
@@ -151,90 +253,101 @@
 					"data": _self.oilYearData.toLastYear
 				}]
 			};
-			_self.showRing("oilOldRing", oilOldRingData, "#e65a40", "2019吨");
+			_self.showRing("oilOldRing", oilOldRingData, "#e65a40", _self.oilYearData.sameTimeYield+"吨");
 			// 完成情况
 			_self.oilDetailsData = [
 				{
 					oilStationName: '白家洼采油站',
-					openNum: 10,
+					completionRate: 99.5,
 					oilPlan: 12345,
 					oilFact:1235.5,
-					toYesterday: 105,
-					toMonth: -10
+					yesterdayAvg: 105,
+					toLastYear: -10
 				},
 				{
 					oilStationName: '上蔡渠采油站',
-					openNum: 23,
+					completionRate: 98,
 					oilPlan: 12345,
 					oilFact:12355,
-					toYesterday: 105,
-					toMonth: -50
+					yesterdayAvg: 105,
+					toLastYear: -50
 				},
 				{
 					oilStationName: '1766采油站',
-					openNum: 16,
+					completionRate: 99.15,
 					oilPlan: 1234.5,
 					oilFact:12355,
-					toYesterday: -105,
-					toMonth: 102
+					yesterdayAvg: -105,
+					toLastYear: 102
 				},
 				{
 					oilStationName: '曹伙采油站',
-					openNum: 25,
+					completionRate: 98.99,
 					oilPlan: 12345,
 					oilFact:12355,
-					toYesterday: 105,
-					toMonth: -10
+					yesterdayAvg: 105,
+					toLastYear: -10
 				},
 				{
 					oilStationName: '东关增压站',
-					openNum: 42,
+					completionRate: 99.36,
 					oilPlan: 12345,
 					oilFact:12355,
-					toYesterday: 10.5,
-					toMonth: -110
+					yesterdayAvg: 10.5,
+					toLastYear: -110
 				},
 				{
 					oilStationName: '1876采油站',
-					openNum: 15,
+					completionRate: 99.18,
 					oilPlan: 12345,
 					oilFact:12355,
-					toYesterday: -195,
-					toMonth: -320
+					yesterdayAvg: -195,
+					toLastYear: -320
 				},
 				{
 					oilStationName: '东仁沟采油站',
-					openNum: 21,
+					completionRate: 99.65,
 					oilPlan: 12345,
 					oilFact:12355,
-					toYesterday: 185,
-					toMonth: -98
+					yesterdayAvg: 185,
+					toLastYear: -98
 				},
 				{
 					oilStationName: '高圈采油站',
-					openNum: 45,
+					completionRate: 99.37,
 					oilPlan: 123.45,
 					oilFact:123.55,
-					toYesterday: 25,
-					toMonth: -64
+					yesterdayAvg: 25,
+					toLastYear: -64
 				},
 				{
 					oilStationName: '一号采油站',
-					openNum: 17,
+					completionRate: 97.95,
 					oilPlan: 2345,
 					oilFact:1235,
-					toYesterday: 35,
-					toMonth: -47
+					yesterdayAvg: 35,
+					toLastYear: -47
 				},
 				{
 					oilStationName: '庙沟采油站',
-					openNum: 13,
+					completionRate: 99.66,
 					oilPlan: 2345,
 					oilFact:3214,
-					toYesterday: -28,
-					toMonth: 47
+					yesterdayAvg: -28,
+					toLastYear: 47
 				},
 			]
+			_self.oilColumnData = {
+				categories: ["2016", "2017", "2018", "2019", "2020"],
+				series: [{
+					"name": "计划",
+					"data": [12345, 11520, 9512.5, 7518.56, 12130.5]
+					}, {
+					"name": "实际",
+					"data": [12355, 10516, 9515.6, 8510.5, 12005]
+				}]
+			};
+			_self.showClumn("oilYearColumn", _self.oilColumnData);
 		}
 	}
 </script>

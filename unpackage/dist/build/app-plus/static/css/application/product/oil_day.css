@@ -2,22 +2,52 @@
 	width: 100%;
 }
 .oil_page_title {
-	background: #F1F1F1;
+	background: #cfd8e9;
 	width: 100%;
-	height: 80rpx;
+	height: 60rpx;
 	padding: 0 4%;
 	padding-right: 9%;
 }
 .title_calendar {
 	position: absolute;
-	top: 2%;
+	top: 1%;
 	left: 80%;
 }
 .oil_day_charts {
 	width: 100%;
-	height: 380upx;
+	height: 350upx;
 }
-#oilDayColumn {
+#oilDayColumn,#waterColumn {
 	width: 100%;
 	height: 100%;
+}
+
+.oil_day_details {
+	width: 100%;
+	padding: 2% 2%;
+}
+.oil_day_table {
+	width: 96%;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
+.oil_day_tr {
+	width: 100%;
+}
+.oil_day_td {
+	border-right: 0 !important;
+	height: 80rpx !important;
+	font-size: 24rpx !important;
+}
+.oil_station_name {
+	width: 100%;
+	height: 50rpx;
+	text-align: center;
+	font-size: 26rpx;
+	font-weight: bold;
+	margin-top: 2%;
+}
+.oilLine,#oilDayLine,#waterDayLine,#waterMonthLine {
+	width: 100%;
+	height: 400rpx;
 }

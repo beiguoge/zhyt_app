@@ -1,0 +1,19 @@
+.video_details {
+	width: 100%;
+}
+
+.video_item {
+	width: 100%;
+	height: 80upx;
+	display: flex;
+	flex-direction: row;
+	padding: 0 5%;
+	border-bottom: 1upx solid #d1d8e0;
+}
+
+.video_details_icon {
+	width: 45upx;
+	height: 40upx;
+	margin-top: 20upx;
+	margin-right: 4%;
+}
