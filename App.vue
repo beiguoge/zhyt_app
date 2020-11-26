@@ -1,6 +1,15 @@
 <script>
 	export default {
 		onLaunch: function() {
+			
+		},
+		onShow: function() {
+			setTimeout(
+				function() {
+					// #ifdef APP-PLUS
+					plus.navigator.closeSplashscreen();
+					// #endif
+				}, 3500);
 			let userInfo = uni.getStorageSync('userInfo');
 			if(userInfo === null || userInfo === '') {
 				setTimeout(
@@ -17,8 +26,6 @@
 						})
 					}, 2000);
 			}
-		},
-		onShow: function() {
 		},
 		onHide: function() {
 		}
