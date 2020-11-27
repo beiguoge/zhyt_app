@@ -1,67 +1,71 @@
 <template>
 	<view class="work_down">
-		<u-section class="work_down_page_title" title="井下作业" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="22" label-size="24" label-color="#000" />
-		<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
-			<view>所有单位</view>
-		</u-popup>
-		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
-		<view class="work_down_top">
-			<canvas canvas-id="workRing" id="workRing" @touchstart="touchMeasure" />
-			<u-table class="work_down_top_table">
-				<u-tr class="work_down_top_u-tr">
-					<u-td class="work_down_top_u-td">待作业</u-td>
-					<u-td class="work_down_top_u-td">{{workDownData[0].toWork}}口</u-td>
-				</u-tr>
-				<u-tr class="work_down_top_u-tr">
-					<u-td class="work_down_top_u-td">作业中</u-td>
-					<u-td class="work_down_top_u-td">{{workDownData[0].workIn}}口</u-td>
-				</u-tr>
-				<u-tr class="work_down_top_u-tr">
-					<u-td class="work_down_top_u-td">作业完成</u-td>
-					<u-td class="work_down_top_u-td">{{workDownData[0].workFinish}}口</u-td>
-				</u-tr>
-			</u-table>
-		</view>
-		<view class="work_down_table2">
-			<u-table class="work_down_bottom_table">
-				<u-tr class="work_down_bottom_u-tr">
-					<u-th class="work_down_bottom_u-td">单位</u-th>
-					<u-th class="work_down_bottom_u-td">待作业</u-th>
-					<u-th class="work_down_bottom_u-td">作业中</u-th>
-					<u-th class="work_down_bottom_u-td">作业完成</u-th>
-				</u-tr>
-				<u-tr class="work_down_bottom_u-tr" v-for="(item, index) in workDownData" :key="index">
-					<u-td class="work_down_bottom_u-td">{{ item.deptName }}</u-td>
-					<u-td class="work_down_bottom_u-td">{{ item.toWork }}</u-td>
-					<u-td class="work_down_bottom_u-td">{{ item.workIn }}</u-td>
-					<u-td class="work_down_bottom_u-td">{{ item.workFinish }}</u-td>
-				</u-tr>
-			</u-table>
-		</view>
-		<PageTitle title_left_text="作业明细" title_right_text="" />
-		<view class="work_down_details">
-			<u-table class="work_down_details_table" style="border-top: 0;">
-				<u-tr class="work_down_details_u-tr">
-					<u-th class="work_down_details_u-td">序号</u-th>
-					<u-th class="work_down_details_u-td">井号</u-th>
-					<u-th class="work_down_details_u-td">当前任务</u-th>
-					<u-th class="work_down_details_u-td">作业名称</u-th>
-					<u-th class="work_down_details_u-td">详情</u-th>
-				</u-tr>
-				<u-tr class="work_down_details_u-tr" v-for="(item, index) in workDownDetailsData" :key="index">
-					<u-td class="work_down_details_u-td">{{ index }}</u-td>
-					<u-td class="work_down_details_u-td">{{ item.wellNum }}</u-td>
-					<u-td class="work_down_details_u-td">{{item.task}}</u-td>
-					<u-td class="work_down_details_u-td">{{item.taskName}}</u-td>
-					<u-td class="work_down_details_u-td">
-						<span @click="toDetails(item.wellNum)">
-							<u-icon name="arrow-right-double" color="#22b573" size="28" />
-						</span>
-					</u-td>
-				</u-tr>
-			</u-table>
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="work_down" v-show="load === false">
+			<u-section class="work_down_page_title" title="井下作业" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="22" label-size="24" label-color="#000" />
+			<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
+				<view>所有单位</view>
+			</u-popup>
+			<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
+			<view class="work_down_top">
+				<canvas canvas-id="workRing" id="workRing" @touchstart="touchMeasure" />
+				<u-table class="work_down_top_table">
+					<u-tr class="work_down_top_u-tr">
+						<u-td class="work_down_top_u-td">待作业</u-td>
+						<u-td class="work_down_top_u-td">{{workDownData[0].toWork}}口</u-td>
+					</u-tr>
+					<u-tr class="work_down_top_u-tr">
+						<u-td class="work_down_top_u-td">作业中</u-td>
+						<u-td class="work_down_top_u-td">{{workDownData[0].workIn}}口</u-td>
+					</u-tr>
+					<u-tr class="work_down_top_u-tr">
+						<u-td class="work_down_top_u-td">作业完成</u-td>
+						<u-td class="work_down_top_u-td">{{workDownData[0].workFinish}}口</u-td>
+					</u-tr>
+				</u-table>
+			</view>
+			<view class="work_down_table2">
+				<u-table class="work_down_bottom_table">
+					<u-tr class="work_down_bottom_u-tr">
+						<u-th class="work_down_bottom_u-td">单位</u-th>
+						<u-th class="work_down_bottom_u-td">待作业</u-th>
+						<u-th class="work_down_bottom_u-td">作业中</u-th>
+						<u-th class="work_down_bottom_u-td">作业完成</u-th>
+					</u-tr>
+					<u-tr class="work_down_bottom_u-tr" v-for="(item, index) in workDownData" :key="index">
+						<u-td class="work_down_bottom_u-td">{{ item.deptName }}</u-td>
+						<u-td class="work_down_bottom_u-td">{{ item.toWork }}</u-td>
+						<u-td class="work_down_bottom_u-td">{{ item.workIn }}</u-td>
+						<u-td class="work_down_bottom_u-td">{{ item.workFinish }}</u-td>
+					</u-tr>
+				</u-table>
+			</view>
+			<PageTitle title_left_text="作业明细" title_right_text="" />
+			<view class="work_down_details">
+				<u-table class="work_down_details_table" style="border-top: 0;">
+					<u-tr class="work_down_details_u-tr">
+						<u-th class="work_down_details_u-td">序号</u-th>
+						<u-th class="work_down_details_u-td">井号</u-th>
+						<u-th class="work_down_details_u-td">当前任务</u-th>
+						<u-th class="work_down_details_u-td">作业名称</u-th>
+						<u-th class="work_down_details_u-td">详情</u-th>
+					</u-tr>
+					<u-tr class="work_down_details_u-tr" v-for="(item, index) in workDownDetailsData" :key="index">
+						<u-td class="work_down_details_u-td">{{ index }}</u-td>
+						<u-td class="work_down_details_u-td">{{ item.wellNum }}</u-td>
+						<u-td class="work_down_details_u-td">{{item.task}}</u-td>
+						<u-td class="work_down_details_u-td">{{item.taskName}}</u-td>
+						<u-td class="work_down_details_u-td">
+							<span @click="toDetails(item.wellNum)">
+								<u-icon name="arrow-right-double" color="#22b573" size="28" />
+							</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+			</view>
 		</view>
 	</view>
 </template>
@@ -71,6 +75,7 @@
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaRing;
+	var workRingData = null;
 	export default {
 		components: {
 			PageTitle
@@ -89,7 +94,8 @@
 					minute: false,
 					second: false
 				},
-				pixelRatio: 1
+				pixelRatio: 1,
+				load: true
 			}
 		},
 		methods: {
@@ -200,7 +206,7 @@
 				task: '地层勘探',
 				taskName: '钻井'
 			},];
-			let workRingData = {
+			workRingData = {
 				series: [{
 					"name": "项目计划中",
 					"data": _self.workDownData[0].toWork
@@ -213,6 +219,16 @@
 					}]
 			};
 			_self.showRing("workRing", workRingData, ['#2670f7', '#57c5d9', '#e65a40']);
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				workRingData.animation = true;
+				canvaRing.updateData(workRingData);
+			}, 2500);
 		}
 	}
 </script>

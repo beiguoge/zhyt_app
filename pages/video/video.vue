@@ -1,5 +1,6 @@
 <template>
 	<view class="video">
+		<w-loading text="加载中.." mask="true" click="false" ref="loading" />
 		<u-search class="video_search" @custom="search" @search="search" shape="round" search-icon-color="#0c2461" placeholder="请输入井场名" v-model="oilWell" />
 		<view class="video_team">
 			<u-collapse :head-style="headStyle">
@@ -72,6 +73,13 @@
 		},
 		onLoad() {
 			this.oilTeamInit()
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.$refs.loading.close();
+			}, 2000);
 		}
 	}
 </script>

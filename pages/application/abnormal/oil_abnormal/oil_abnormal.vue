@@ -1,49 +1,53 @@
 <template>
 	<view class="oil_abnormal">
-		<u-section class="abnormal_page_title" font-size="24" title="异常汇总" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="22" label-size="24" label-color="#000" />
-		<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
-			<view>所有单位</view>
-		</u-popup>
-		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
-		<view class="oil_abnormal_charts" >
-			<canvas canvas-id="oilAbnormalColumn" id="oilAbnormalColumn" />
-		</view>
-		<PageTitle title_left_text="异常明细" title_right_text="" />
-		<view class="oil_abnormal_details">
-			<view class="details_top">
-				<u-button class="details_btn" type="primary" :plain="liquidPlain" @click="showLiquidLine">液量</u-button>
-				<u-button class="details_btn" type="primary" :plain="waterCutPlain" @click="showWaterCutLine">含水</u-button>
-				<u-button class="details_btn" type="primary" :plain="movingLiquidPlain" @click="showMovingLiquid">动液面</u-button>
-				<u-button class="details_btn" type="primary" :plain="abnormalPlain" @click="showAbnormalGT">工况</u-button>
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="oil_abnormal" v-show="load === false">
+			<u-section class="abnormal_page_title" font-size="24" title="异常汇总" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="22" label-size="24" label-color="#000" />
+			<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
+				<view>所有单位</view>
+			</u-popup>
+			<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
+			<view class="oil_abnormal_charts" >
+				<canvas canvas-id="oilAbnormalColumn" id="oilAbnormalColumn" />
 			</view>
-			<u-table class="oil_abnormal_table" border-color="#999999" padding="0 0">
-				<u-tr class="oil_abnormal_tr">
-					<u-td class="oil_abnormal_td" width="12%">序号</u-td>
-					<u-td class="oil_abnormal_td" width="22%">井号</u-td>
-					<u-td class="oil_abnormal_td" width="28%">生产时间(h)</u-td>
-					<u-td class="oil_abnormal_td" width="38%">诊断结果</u-td>
-				</u-tr>
-				<u-tr class="oil_abnormal_tr" v-for="(item, index) in oilDetailsData" :key="index">
-					<u-td class="oil_abnormal_td" width="12%">
-						<span @click="wellDetails(item)">{{index+1}}</span>
-					</u-td>
-					<u-td class="oil_abnormal_td" width="22%">
-						<span @click="wellDetails(item)">{{item.wellNum}}</span>
-					</u-td>
-					<u-td class="oil_abnormal_td" width="28%">
-						<span @click="wellDetails(item)">{{item.time}}</span>
-					</u-td>
-					<u-td class="oil_abnormal_td" width="38%">
-						<span @click="wellDetails(item)">{{item.warningGist}}</span>
-					</u-td>
-				</u-tr>
-			</u-table>
-			<view class="bottom_chart">
-				<view class="oil_station_name">{{oilStation}}</view>
-				<view class="oilLine">
-					<canvas canvas-id="bottomLine" id="bottomLine" @touchstart="touchLine" />
+			<PageTitle title_left_text="异常明细" title_right_text="" />
+			<view class="oil_abnormal_details">
+				<view class="details_top">
+					<u-button class="details_btn" type="primary" :plain="liquidPlain" @click="showLiquidLine">液量</u-button>
+					<u-button class="details_btn" type="primary" :plain="waterCutPlain" @click="showWaterCutLine">含水</u-button>
+					<u-button class="details_btn" type="primary" :plain="movingLiquidPlain" @click="showMovingLiquid">动液面</u-button>
+					<u-button class="details_btn" type="primary" :plain="abnormalPlain" @click="showAbnormalGT">工况</u-button>
+				</view>
+				<u-table class="oil_abnormal_table" border-color="#999999" padding="0 0">
+					<u-tr class="oil_abnormal_tr">
+						<u-td class="oil_abnormal_td" width="12%">序号</u-td>
+						<u-td class="oil_abnormal_td" width="22%">井号</u-td>
+						<u-td class="oil_abnormal_td" width="28%">生产时间(h)</u-td>
+						<u-td class="oil_abnormal_td" width="38%">诊断结果</u-td>
+					</u-tr>
+					<u-tr class="oil_abnormal_tr" v-for="(item, index) in oilDetailsData" :key="index">
+						<u-td class="oil_abnormal_td" width="12%">
+							<span @click="wellDetails(item)">{{index+1}}</span>
+						</u-td>
+						<u-td class="oil_abnormal_td" width="22%">
+							<span @click="wellDetails(item)">{{item.wellNum}}</span>
+						</u-td>
+						<u-td class="oil_abnormal_td" width="28%">
+							<span @click="wellDetails(item)">{{item.time}}</span>
+						</u-td>
+						<u-td class="oil_abnormal_td" width="38%">
+							<span @click="wellDetails(item)">{{item.warningGist}}</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+				<view class="bottom_chart">
+					<view class="oil_station_name">{{oilStation}}</view>
+					<view class="oilLine">
+						<canvas canvas-id="bottomLine" id="bottomLine" @touchstart="touchLine" />
+					</view>
 				</view>
 			</view>
 		</view>
@@ -83,6 +87,7 @@
 				waterCutPlain: true,
 				movingLiquidPlain: true,
 				abnormalPlain: true,
+				load: true
 			}
 		},
 		methods: {
@@ -307,6 +312,18 @@
 				}]
 			};
 			_self.showLine("bottomLine", _self.liquidLineData);
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				that.oilAbnormalColumnData.animation = true;
+				canvaColumn.updateData(that.oilAbnormalColumnData);
+				that.liquidLineData.animation = true;
+				canvaLine.updateData(that.liquidLineData);
+			}, 2500);
 		}
 	}
 </script>

@@ -1,70 +1,74 @@
 <template>
 	<view class="water_single">
-		<u-section class="water_single_page_title" font-size="24" title="单井工况" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
-		<view class="single_abnormal">
-			<u-table class="u-table">
-				<u-tr class="u-tr">
-					<u-td class="u-td">井号</u-td>
-					<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
-					<u-td class="u-td">生产时间</u-td>
-					<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
-				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">配注量</u-td>
-					<u-td class="u-td">{{singleWellData.oweInjection}}</u-td>
-					<u-td class="u-td">实注量</u-td>
-					<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
-				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">泵压</u-td>
-					<u-td class="u-td">{{singleWellData.moreInjection}}</u-td>
-					<u-td class="u-td">分压</u-td>
-					<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
-				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">管压</u-td>
-					<u-td class="u-td">{{singleWellData.moreInjection}}</u-td>
-					<u-td class="u-td">油压</u-td>
-					<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
-				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td">套压</u-td>
-					<u-td class="u-td">{{singleWellData.moreInjection}}</u-td>
-					<u-td class="u-td">工况结果</u-td>
-					<u-td class="u-td">{{singleWellData.result}}</u-td>
-				</u-tr>
-				<u-tr class="u-tr">
-					<u-td class="u-td" width="25%">工况原因</u-td>
-					<u-td class="u-td">{{singleWellData.cause}}</u-td>
-				</u-tr>
-			</u-table>
-		</view>
-		<PageTitle title_left_text="详细工况" title_right_text="" />
-		<view class="single_details">
-			<u-table class="single_table" border-color="#999999" padding="0 0">
-				<u-tr class="single_tr">
-					<u-td class="single_td" width="12%">序号</u-td>
-					<u-td class="single_td" width="28%">时间</u-td>
-					<u-td class="single_td" width="22%">工况预测</u-td>
-					<u-td class="single_td" width="38%">预测依据</u-td>
-				</u-tr>
-				<u-tr class="single_tr" v-for="(item, index) in singleDetailsData" :key="index">
-					<u-td class="single_td" width="12%">
-						<span>{{index}}</span>
-					</u-td>
-					<u-td class="single_td" width="28%">
-						<span>{{item.time}}</span>
-					</u-td>
-					<u-td class="single_td" width="22%">
-						<span>{{item.abnormalWarning}}</span>
-					</u-td>
-					<u-td class="single_td" width="38%">
-						<span>{{item.warningGist}}</span>
-					</u-td>
-				</u-tr>
-			</u-table>
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="water_single" v-show="load === false">
+			<u-section class="water_single_page_title" font-size="24" title="单井工况" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
+			<view class="single_abnormal">
+				<u-table class="u-table">
+					<u-tr class="u-tr">
+						<u-td class="u-td">井号</u-td>
+						<u-td class="u-td">{{singleWellData.wellNum}}</u-td>
+						<u-td class="u-td">生产时间</u-td>
+						<u-td class="u-td">{{singleWellData.productTime}}</u-td>
+					</u-tr>
+					<u-tr class="u-tr">
+						<u-td class="u-td">配注量</u-td>
+						<u-td class="u-td">{{singleWellData.injectionPlan}}</u-td>
+						<u-td class="u-td">实注量</u-td>
+						<u-td class="u-td">{{singleWellData.injectionFact}}</u-td>
+					</u-tr>
+					<u-tr class="u-tr">
+						<u-td class="u-td">泵压</u-td>
+						<u-td class="u-td">{{singleWellData.pupmPre}}kPa</u-td>
+						<u-td class="u-td">分压</u-td>
+						<u-td class="u-td">{{singleWellData.partialPre}}kPa</u-td>
+					</u-tr>
+					<u-tr class="u-tr">
+						<u-td class="u-td">管压</u-td>
+						<u-td class="u-td">{{singleWellData.pipePre}}kPa</u-td>
+						<u-td class="u-td">油压</u-td>
+						<u-td class="u-td">{{singleWellData.oilPre}}kPa</u-td>
+					</u-tr>
+					<u-tr class="u-tr">
+						<u-td class="u-td">套压</u-td>
+						<u-td class="u-td">{{singleWellData.casingPre}}kPa</u-td>
+						<u-td class="u-td">工况结果</u-td>
+						<u-td class="u-td">{{singleWellData.result}}</u-td>
+					</u-tr>
+					<u-tr class="u-tr">
+						<u-td class="u-td" width="25%">工况原因</u-td>
+						<u-td class="u-td">{{singleWellData.cause}}</u-td>
+					</u-tr>
+				</u-table>
+			</view>
+			<PageTitle title_left_text="详细工况" title_right_text="" />
+			<view class="single_details">
+				<u-table class="single_table" border-color="#999999" padding="0 0">
+					<u-tr class="single_tr">
+						<u-td class="single_td" width="12%">序号</u-td>
+						<u-td class="single_td" width="28%">时间</u-td>
+						<u-td class="single_td" width="22%">工况预测</u-td>
+						<u-td class="single_td" width="38%">预测依据</u-td>
+					</u-tr>
+					<u-tr class="single_tr" v-for="(item, index) in singleDetailsData" :key="index">
+						<u-td class="single_td" width="12%">
+							<span>{{index}}</span>
+						</u-td>
+						<u-td class="single_td" width="28%">
+							<span>{{item.time}}</span>
+						</u-td>
+						<u-td class="single_td" width="22%">
+							<span>{{item.abnormalWarning}}</span>
+						</u-td>
+						<u-td class="single_td" width="38%">
+							<span>{{item.warningGist}}</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+			</view>
 		</view>
 	</view>
 </template>
@@ -80,7 +84,8 @@
 			return {
 				singleWellData: {},
 				singleDetailsData: [],
-				calendarShow: false
+				calendarShow: false,
+				load: true
 			}
 		},
 		methods: {
@@ -92,7 +97,19 @@
 			_self = this;
 			const eventChannel = _self.getOpenerEventChannel();
 			eventChannel.once('wellData', function(data) {
-				_self.singleWellData = data;
+				_self.singleWellData = {
+					wellNum: data.wellNum,
+					productTime: '100h',
+					injectionPlan: 12345,
+					injectionFact:1235.5,
+					pupmPre: 40,
+					partialPre: 56,
+					pipePre: 63,
+					oilPre: 65,
+					casingPre: 50,
+					result: data.result,
+					cause: data.cause
+				};
 			});
 			_self.singleDetailsData = [
 				{
@@ -116,6 +133,14 @@
 					warningGist: '刺漏'
 				},
 			]
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+			}, 2500);
 		}
 	}
 </script>

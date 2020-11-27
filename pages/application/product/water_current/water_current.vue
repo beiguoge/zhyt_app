@@ -1,96 +1,100 @@
 <template>
 	<view class="water_current">
-		<PageTitle title_left_text="实时注水" title_right_text="" />
-		<view class="water_current_top">
-			<u-table class="water_current_top_table" padding="0 0">
-				<u-tr class="water_current_top_tr">
-					<u-td class="water_current_top_td1" width="70%">
-						<u-tr class="water_current_top_tr">
-							<u-td class="water_current_top_td">配注</u-td>
-							<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;">
-								<span>{{waterCurrentData.injectionPlan}}m<sup>3</sup></span>
-							</u-td>
-						</u-tr>
-						<u-tr class="water_current_top_tr">
-							<u-td class="water_current_top_td" style="border-bottom: 0;">实注</u-td>
-							<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">
-								<span>{{waterCurrentData.injectionFact}}m<sup>3</sup></span>
-							</u-td>
-						</u-tr>
-					</u-td>
-					<u-td class="water_current_top_td2" width="30%">
-						<canvas canvas-id="waterCurrentRing" id="waterCurrentRing" />
-					</u-td>
-				</u-tr>
-				<u-tr class="water_current_top_tr">
-					<u-td class="water_current_top_td1" width="70%">
-						<u-tr class="water_current_top_tr">
-							<u-td class="water_current_top_td">预测超注</u-td>
-							<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;">{{waterCurrentData.moreInjection}}口</u-td>
-						</u-tr>
-						<u-tr class="water_current_top_tr">
-							<u-td class="water_current_top_td" style="border-bottom: 0;">预测欠注</u-td>
-							<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{waterCurrentData.oweInjection}}口</u-td>
-						</u-tr>
-					</u-td>
-					<u-td class="water_current_top_td2" width="30%">
-						<canvas canvas-id="waterWarningRing" id="waterWarningRing" />
-					</u-td>
-				</u-tr>
-			</u-table>
-		</view>
-		<PageTitle title_left_text="完成情况" title_right_text="" />
-		<view class="water_current_details">
-			<u-table class="water_current_table" border-color="#999999" padding="0 0">
-				<u-tr class="water_current_tr">
-					<u-td class="water_current_td" width="20%">场站</u-td>
-					<u-td class="water_current_td" width="18%">配注</u-td>
-					<u-td class="water_current_td" width="18%">实注</u-td>
-					<u-td class="water_current_td" width="14%">完成率</u-td>
-					<u-td class="water_current_td" width="15%">预警超注</u-td>
-					<u-td class="water_current_td" width="15%">预警欠注</u-td>
-				</u-tr>
-				<u-tr class="water_current_tr">
-					<u-td class="water_current_td" width="20%">
-						<span>{{waterCurrentData.oilStationName}}</span>
-					</u-td>
-					<u-td class="water_current_td" width="18%">
-						<span>{{waterCurrentData.injectionPlan}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="water_current_td" width="18%">
-						<span>{{waterCurrentData.injectionFact}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="water_current_td" width="14%">
-						<span>{{waterCurrentData.completionRate}}%</span>
-					</u-td>
-					<u-td class="water_current_td" width="15%">
-						<span>{{waterCurrentData.moreInjection}}</span>
-					</u-td>
-					<u-td class="water_current_td" width="15%">
-						<span>{{waterCurrentData.oweInjection}}</span>
-					</u-td>
-				</u-tr>
-				<u-tr class="water_current_tr" v-for="(item, index) in waterDetailsData" :key="index">
-					<u-td class="water_current_td" width="20%">
-						<span>{{item.oilStationName}}</span>
-					</u-td>
-					<u-td class="water_current_td" width="18%">
-						<span>{{item.injectionPlan}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="water_current_td" width="18%">
-						<span>{{item.injectionFact}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="water_current_td" width="14%">
-						<span>{{item.completionRate}}%</span>
-					</u-td>
-					<u-td class="water_current_td" width="15%">
-						<span>{{item.moreInjection}}</span>
-					</u-td>
-					<u-td class="water_current_td" width="15%">
-						<span>{{item.oweInjection}}</span>
-					</u-td>
-				</u-tr>
-			</u-table>
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="water_current" v-show="load === false">
+			<PageTitle title_left_text="实时注水" title_right_text="" />
+			<view class="water_current_top">
+				<u-table class="water_current_top_table" padding="0 0">
+					<u-tr class="water_current_top_tr">
+						<u-td class="water_current_top_td1" width="70%">
+							<u-tr class="water_current_top_tr">
+								<u-td class="water_current_top_td">配注</u-td>
+								<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;">
+									<span>{{waterCurrentData.injectionPlan}}m<sup>3</sup></span>
+								</u-td>
+							</u-tr>
+							<u-tr class="water_current_top_tr">
+								<u-td class="water_current_top_td" style="border-bottom: 0;">实注</u-td>
+								<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">
+									<span>{{waterCurrentData.injectionFact}}m<sup>3</sup></span>
+								</u-td>
+							</u-tr>
+						</u-td>
+						<u-td class="water_current_top_td2" width="30%">
+							<canvas canvas-id="waterCurrentRing" id="waterCurrentRing" />
+						</u-td>
+					</u-tr>
+					<u-tr class="water_current_top_tr">
+						<u-td class="water_current_top_td1" width="70%">
+							<u-tr class="water_current_top_tr">
+								<u-td class="water_current_top_td">预测超注</u-td>
+								<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;">{{waterCurrentData.moreInjection}}口</u-td>
+							</u-tr>
+							<u-tr class="water_current_top_tr">
+								<u-td class="water_current_top_td" style="border-bottom: 0;">预测欠注</u-td>
+								<u-td class="water_current_top_td" style="font-weight: bold;border-right: 0;border-bottom: 0;">{{waterCurrentData.oweInjection}}口</u-td>
+							</u-tr>
+						</u-td>
+						<u-td class="water_current_top_td2" width="30%">
+							<canvas canvas-id="waterWarningRing" id="waterWarningRing" />
+						</u-td>
+					</u-tr>
+				</u-table>
+			</view>
+			<PageTitle title_left_text="完成情况" title_right_text="" />
+			<view class="water_current_details">
+				<u-table class="water_current_table" border-color="#999999" padding="0 0">
+					<u-tr class="water_current_tr">
+						<u-td class="water_current_td" width="20%">场站</u-td>
+						<u-td class="water_current_td" width="18%">配注</u-td>
+						<u-td class="water_current_td" width="18%">实注</u-td>
+						<u-td class="water_current_td" width="14%">完成率</u-td>
+						<u-td class="water_current_td" width="15%">预警超注</u-td>
+						<u-td class="water_current_td" width="15%">预警欠注</u-td>
+					</u-tr>
+					<u-tr class="water_current_tr">
+						<u-td class="water_current_td" width="20%">
+							<span>{{waterCurrentData.oilStationName}}</span>
+						</u-td>
+						<u-td class="water_current_td" width="18%">
+							<span>{{waterCurrentData.injectionPlan}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="water_current_td" width="18%">
+							<span>{{waterCurrentData.injectionFact}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="water_current_td" width="14%">
+							<span>{{waterCurrentData.completionRate}}%</span>
+						</u-td>
+						<u-td class="water_current_td" width="15%">
+							<span>{{waterCurrentData.moreInjection}}</span>
+						</u-td>
+						<u-td class="water_current_td" width="15%">
+							<span>{{waterCurrentData.oweInjection}}</span>
+						</u-td>
+					</u-tr>
+					<u-tr class="water_current_tr" v-for="(item, index) in waterDetailsData" :key="index">
+						<u-td class="water_current_td" width="20%">
+							<span>{{item.oilStationName}}</span>
+						</u-td>
+						<u-td class="water_current_td" width="18%">
+							<span>{{item.injectionPlan}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="water_current_td" width="18%">
+							<span>{{item.injectionFact}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="water_current_td" width="14%">
+							<span>{{item.completionRate}}%</span>
+						</u-td>
+						<u-td class="water_current_td" width="15%">
+							<span>{{item.moreInjection}}</span>
+						</u-td>
+						<u-td class="water_current_td" width="15%">
+							<span>{{item.oweInjection}}</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+			</view>
 		</view>
 	</view>
 </template>
@@ -99,7 +103,8 @@
 	import PageTitle from "../../../../common/page_title/page_title.vue";
 	import uCharts from '../../../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
-	var canvaRing;
+	var canvaRing1 = null;
+	var canvaRing2 = null;
 	export default {
 		components: {
 			PageTitle
@@ -108,12 +113,15 @@
 			return {
 				pixelRatio: 1,
 				waterCurrentData: {},
-				waterDetailsData: []
+				waterDetailsData: [],
+				waterCurrentRingData: {},
+				waterWarningRingData: {},
+				load: true
 			}
 		},
 		methods: {
-			showRing(canvasId, chartData, color, title, subtitle) {
-				canvaRing = new uCharts({
+			showRing(canvasId, chartData, color, title, subtitle, canvaRingType) {
+				let canvaRing = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'ring',
@@ -146,7 +154,12 @@
 						  labelWidth: 15
 						}
 					}
-				})
+				});
+				if(canvaRingType) {
+					canvaRing1 = canvaRing;
+				} else {
+					canvaRing2 = canvaRing;
+				}
 			}
 		},
 		onLoad() {
@@ -159,7 +172,7 @@
 				moreInjection: 126,
 				oweInjection: 105
 			};
-			let waterCurrentRingData = {
+			_self.waterCurrentRingData = {
 				series: [{
 					"name": "实际进度",
 					"data": 34.7
@@ -168,8 +181,8 @@
 					"data": 100
 				}]
 			};
-			_self.showRing("waterCurrentRing", waterCurrentRingData, '#2670f7', '34.7%', '时间进度');
-			let waterWarningRingData = {
+			_self.showRing("waterCurrentRing", _self.waterCurrentRingData, '#2670f7', '34.7%', '时间进度', true);
+			_self.waterWarningRingData = {
 				series: [{
 					"name": "实际进度",
 					"data": 34.7
@@ -178,7 +191,7 @@
 					"data": 100
 				}]
 			};
-			_self.showRing("waterWarningRing", waterWarningRingData, "#e65a40", '34.7%', '注水进度');
+			_self.showRing("waterWarningRing", _self.waterWarningRingData, "#e65a40", '34.7%', '注水进度', false);
 			// 完成情况
 			_self.waterDetailsData = [
 				{
@@ -262,6 +275,18 @@
 					oweInjection: 47
 				},
 			]
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				that.waterCurrentRingData.animation = true;
+				canvaRing1.updateData(that.waterCurrentRingData);
+				that.waterWarningRingData.animation = true;
+				canvaRing2.updateData(that.waterWarningRingData);
+			}, 2500);
 		}
 	}
 </script>

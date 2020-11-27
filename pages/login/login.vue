@@ -60,7 +60,7 @@
 							if(that.rememberMe) {
 								uni.setStorage({
 									key: 'userInfo',
-									data: {userId: res.data.userId, username: res.data.userName, user_avatar: '/static/image/user/user_avatar.jpg'},
+									data: {userId: res.data.userId, username: res.data.userName, password: this.form.password, user_avatar: '/static/image/user/user_avatar.jpg'},
 								});
 							}
 							uni.showToast({

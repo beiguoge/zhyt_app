@@ -1,72 +1,76 @@
 <template>
 	<view class="oil_day">
-		<u-section class="oil_page_title" font-size="24" title="月注水" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
-		<view class="oil_day_charts" >
-			<canvas canvas-id="waterColumn" id="waterColumn" @touchstart="touchColumn" />
-		</view>
-		<PageTitle title_left_text="完成情况" title_right_text="" />
-		<view class="oil_day_details">
-			<u-table class="oil_day_table" border-color="#999999" padding="0 0">
-				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">场站</u-td>
-					<u-td class="oil_day_td" width="16%">月累配注</u-td>
-					<u-td class="oil_day_td" width="16%">月累实注</u-td>
-					<u-td class="oil_day_td" width="18%">年累配注</u-td>
-					<u-td class="oil_day_td" width="16%">年累实注</u-td>
-					<u-td class="oil_day_td" width="14%">实配差</u-td>
-				</u-tr>
-				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.oilStationName}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="16%">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionPlanMonth}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="16%">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionFactMonth}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionPlanYear}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="16">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionFactYear}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%" v-if="waterDayDataSum.poorFact > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(waterDayDataSum)">+{{waterDayDataSum.poorFact}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%" v-else style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.poorFact}}</span>
-					</u-td>
-				</u-tr>
-				<u-tr class="oil_day_tr" v-for="(item, index) in waterDayData" :key="index">
-					<u-td class="oil_day_td" width="20%">
-						<span @click="wellDetails(item)">{{item.oilStationName}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="16%">
-						<span @click="wellDetails(item)">{{item.injectionPlanMonth}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="16%">
-						<span @click="wellDetails(item)">{{item.injectionFactMonth}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(item)">{{item.injectionPlanYear}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="16%">
-						<span @click="wellDetails(item)">{{item.injectionFactYear}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%" v-if="item.poorFact > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(item)">+{{item.poorFact}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%" v-else  style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(item)">{{item.poorFact}}</span>
-					</u-td>
-				</u-tr>
-			</u-table>
-			<view class="oil_station_name">{{oilStation}}—12个月注水曲线</view>
-			<view class="oilLine">
-				<canvas canvas-id="waterMonthLine" id="waterMonthLine" @touchstart="touchLine" />
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="oil_day" v-show="load === false">
+			<u-section class="oil_page_title" font-size="24" title="月注水" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
+			<view class="oil_day_charts" >
+				<canvas canvas-id="waterColumn" id="waterColumn" @touchstart="touchColumn" />
+			</view>
+			<PageTitle title_left_text="完成情况" title_right_text="" />
+			<view class="oil_day_details">
+				<u-table class="oil_day_table" border-color="#999999" padding="0 0">
+					<u-tr class="oil_day_tr">
+						<u-td class="oil_day_td" width="20%">场站</u-td>
+						<u-td class="oil_day_td" width="16%">月累配注</u-td>
+						<u-td class="oil_day_td" width="16%">月累实注</u-td>
+						<u-td class="oil_day_td" width="18%">年累配注</u-td>
+						<u-td class="oil_day_td" width="16%">年累实注</u-td>
+						<u-td class="oil_day_td" width="14%">实配差</u-td>
+					</u-tr>
+					<u-tr class="oil_day_tr">
+						<u-td class="oil_day_td" width="20%">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.oilStationName}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="16%">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionPlanMonth}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="16%">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionFactMonth}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionPlanYear}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="16">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.injectionFactYear}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%" v-if="waterDayDataSum.poorFact > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(waterDayDataSum)">+{{waterDayDataSum.poorFact}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%" v-else style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(waterDayDataSum)">{{waterDayDataSum.poorFact}}</span>
+						</u-td>
+					</u-tr>
+					<u-tr class="oil_day_tr" v-for="(item, index) in waterDayData" :key="index">
+						<u-td class="oil_day_td" width="20%">
+							<span @click="wellDetails(item)">{{item.oilStationName}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="16%">
+							<span @click="wellDetails(item)">{{item.injectionPlanMonth}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="16%">
+							<span @click="wellDetails(item)">{{item.injectionFactMonth}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(item)">{{item.injectionPlanYear}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="16%">
+							<span @click="wellDetails(item)">{{item.injectionFactYear}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%" v-if="item.poorFact > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(item)">+{{item.poorFact}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%" v-else  style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(item)">{{item.poorFact}}</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+				<view class="oil_station_name">{{oilStation}}—12个月注水曲线</view>
+				<view class="oilLine">
+					<canvas canvas-id="waterMonthLine" id="waterMonthLine" @touchstart="touchLine" />
+				</view>
 			</view>
 		</view>
 	</view>
@@ -90,7 +94,8 @@
 				waterDayData: [],
 				waterColumnData: {},
 				waterLineData: {},
-				oilStation: '合计'
+				oilStation: '合计',
+				load: true
 			}
 		},
 		methods: {
@@ -325,6 +330,18 @@
 				}]
 			};
 			_self.showLine("waterMonthLine", _self.waterLineData);
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				that.waterColumnData.animation = true;
+				canvaColumn.updateData(that.waterColumnData);
+				that.waterLineData.animation = true;
+				canvaLine.updateData(that.waterLineData);
+			}, 2500);
 		}
 	}
 </script>

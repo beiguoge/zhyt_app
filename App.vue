@@ -19,6 +19,22 @@
 						})
 					}, 2000);
 			} else {
+				uni.request({
+					url: 'http://192.168.0.185:8080/demo/login',
+					data: {username: userInfo.username, password: userInfo.password},
+					method: 'POST',
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					fail(err) {
+						uni.showToast({
+							title: '服务器异常!',
+							icon: 'none',
+							position: 'bottom'
+						});
+						reject(err)
+					}
+				});
 				setTimeout(
 					function() {
 						uni.switchTab({

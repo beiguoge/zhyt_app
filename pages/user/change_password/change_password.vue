@@ -2,7 +2,7 @@
 	<view class="change_password">
 		<view class="card">
 			<u-avatar class="user_img" :src="userAvatar" size="160" />
-			<view class="user_name">张三</view>
+			<view class="user_name">{{username}}</view>
 			<u-field class="old_password" :required=true type="password" v-model="oldPassword" :clearable="false" label="原密码" placeholder="请输入原密码" placeholder-style="color: #cccccc;font-size: 26rpx" />
 			<u-field class="new_password" :required=true type="password" v-model="newPassword" :clearable="false" label="新密码" placeholder="密码为6位数,可包含字母数字和符号" placeholder-style="color: #cccccc;font-size: 26rpx" />
 			<u-field class="commit_password" :required=true type="password" v-model="commitPassword" :clearable="false" :error-message="errorMessage" label="确认密码" placeholder="密码为6位数,可包含字母数字和符号" placeholder-style="color: #cccccc;font-size: 26rpx" />
@@ -19,7 +19,9 @@
 				oldPassword: "",
 				newPassword: "",
 				commitPassword: "",
-				errorMessage: ""
+				errorMessage: "",
+				username: null,
+				userAvatar: ""
 			}
 		},
 		methods: {
@@ -62,6 +64,7 @@
 		onLoad() {
 			const userInfo = uni.getStorageSync('userInfo');
 			this.userAvatar = userInfo.user_avatar;
+			this.username = userInfo.username;
 		}
 	}
 </script>

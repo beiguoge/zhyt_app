@@ -1,61 +1,65 @@
 <template>
 	<view class="water_abnormal">
-		<u-section class="abnormal_page_title" title="工况汇总" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
-			<view>所有单位</view>
-		</u-popup>
-		<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
-		<view class="abnormal_all">
-			<u-table class="water_abnormal_table">
-				<u-tr class="water_abnormal_tr">
-					<u-td class="water_abnormal_td">开井</u-td>
-					<u-td class="water_abnormal_td">{{waterAbnormalData.openNum}}口</u-td>
-				</u-tr>
-				<u-tr class="water_abnormal_tr">
-					<u-td class="water_abnormal_td">欠注</u-td>
-					<u-td class="water_abnormal_td">{{waterAbnormalData.oweInjection}}口</u-td>
-				</u-tr>
-				<u-tr class="water_abnormal_tr">
-					<u-td class="water_abnormal_td">超注</u-td>
-					<u-td class="water_abnormal_td">{{waterAbnormalData.moreInjection}}口</u-td>
-				</u-tr>
-			</u-table>
-			<view class="waterPie">
-				<canvas canvas-id="waterPie" id="waterPie" />
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="water_abnormal" v-show="load === false">
+			<u-section class="abnormal_page_title" title="工况汇总" font-size="24" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-icon class="title_dept" @click="showDept = true" name="arrow-down" label="单位选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-popup v-model="showDept" width="60%" height="100%" border-radius="20" :closeable=true>
+				<view>所有单位</view>
+			</u-popup>
+			<u-picker v-model="calendarShow" mode="time" :params="params" @confirm="selectByData" />
+			<view class="abnormal_all">
+				<u-table class="water_abnormal_table">
+					<u-tr class="water_abnormal_tr">
+						<u-td class="water_abnormal_td">开井</u-td>
+						<u-td class="water_abnormal_td">{{waterAbnormalData.openNum}}口</u-td>
+					</u-tr>
+					<u-tr class="water_abnormal_tr">
+						<u-td class="water_abnormal_td">欠注</u-td>
+						<u-td class="water_abnormal_td">{{waterAbnormalData.oweInjection}}口</u-td>
+					</u-tr>
+					<u-tr class="water_abnormal_tr">
+						<u-td class="water_abnormal_td">超注</u-td>
+						<u-td class="water_abnormal_td">{{waterAbnormalData.moreInjection}}口</u-td>
+					</u-tr>
+				</u-table>
+				<view class="waterPie">
+					<canvas canvas-id="waterPie" id="waterPie" />
+				</view>
 			</view>
-		</view>
-		<PageTitle title_left_text="工况详情" title_right_text="" />
-		<view class="oil_day_details">
-			<u-table class="oil_day_table" border-color="#999999" padding="0 0">
-				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">井号</u-td>
-					<u-td class="oil_day_td" width="20%">注水站</u-td>
-					<u-td class="oil_day_td" width="25%">工况结果</u-td>
-					<u-td class="oil_day_td" width="25%">工况原因</u-td>
-					<u-td class="oil_day_td" width="10%">详情</u-td>
-				</u-tr>
-				<u-tr class="oil_day_tr" v-for="(item, index) in waterAbnormalDetailsData" :key="index">
-					<u-td class="oil_day_td" width="20%">
-						<span>{{item.wellNum}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="20%">
-						<span>{{item.waterStation}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="25%">
-						<span>{{item.result}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="25%">
-						<span>{{item.cause}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="10%">
-						<span @click="wellDetails(item)">
-							<u-icon name="arrow-right-double" color="#22b573" size="28"/>
-						</span>
-					</u-td>
-				</u-tr>
-			</u-table>
+			<PageTitle title_left_text="工况详情" title_right_text="" />
+			<view class="oil_day_details">
+				<u-table class="oil_day_table" border-color="#999999" padding="0 0">
+					<u-tr class="oil_day_tr">
+						<u-td class="oil_day_td" width="20%">井号</u-td>
+						<u-td class="oil_day_td" width="20%">注水站</u-td>
+						<u-td class="oil_day_td" width="25%">工况结果</u-td>
+						<u-td class="oil_day_td" width="25%">工况原因</u-td>
+						<u-td class="oil_day_td" width="10%">详情</u-td>
+					</u-tr>
+					<u-tr class="oil_day_tr" v-for="(item, index) in waterAbnormalDetailsData" :key="index">
+						<u-td class="oil_day_td" width="20%">
+							<span>{{item.wellNum}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="20%">
+							<span>{{item.waterStation}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="25%">
+							<span>{{item.result}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="25%">
+							<span>{{item.cause}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="10%">
+							<span @click="wellDetails(item)">
+								<u-icon name="arrow-right-double" color="#22b573" size="28"/>
+							</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+			</view>
 		</view>
 	</view>
 </template>
@@ -83,7 +87,9 @@
 				},
 				pixelRatio: 1,
 				waterAbnormalData: {},
-				waterAbnormalDetailsData: []
+				waterAbnormalDetailsData: [],
+				waterPieData: {},
+				load: true
 			}
 		},
 		methods: {
@@ -134,8 +140,8 @@
 				oweInjection: 60,
 				moreInjection: 30
 			};
-			let waterPieData= {series:[]};
-			waterPieData.series= [{
+			_self.waterPieData = {
+				series: [{
 				"name": "正常",
 				"data": _self.waterAbnormalData.openNum,
 				"legendShape": "rect",
@@ -150,8 +156,9 @@
 				"data": _self.waterAbnormalData.moreInjection,
 				"legendShape": "rect",
 				"format": () => {return _self.waterAbnormalData.moreInjection + '口'}
-			  }];
-			_self.showPie("waterPie", waterPieData);
+			  }]
+			};
+			_self.showPie("waterPie", _self.waterPieData);
 			_self.waterAbnormalDetailsData = [
 				{
 					wellNum: "1号井",
@@ -214,6 +221,16 @@
 					cause: "不详"
 				}
 			]
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				that.waterPieData.animation = true;
+				canvaPie.updateData(that.waterPieData);
+			}, 2500);
 		}
 	}
 </script>

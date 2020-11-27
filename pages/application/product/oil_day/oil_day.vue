@@ -1,78 +1,82 @@
 <template>
 	<view class="oil_day">
-		<u-section class="oil_page_title" font-size="24" title="日产油" line-color="#113b8f" sub-title="" :arrow=false />
-		<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
-		<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
-		<view class="oil_day_charts" >
-			<canvas canvas-id="oilDayColumn" id="oilDayColumn" @touchstart="touchColumn" />
-		</view>
-		<PageTitle title_left_text="完成情况" title_right_text="" />
-		<view class="oil_day_details">
-			<u-table class="oil_day_table" border-color="#999999" padding="0 0">
-				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">场站</u-td>
-					<u-td class="oil_day_td" width="14%">开井</u-td>
-					<u-td class="oil_day_td" width="18%">计划产油</u-td>
-					<u-td class="oil_day_td" width="18%">实际产油</u-td>
-					<u-td class="oil_day_td" width="15%">较昨日</u-td>
-					<u-td class="oil_day_td" width="15%">较月平均</u-td>
-				</u-tr>
-				<u-tr class="oil_day_tr">
-					<u-td class="oil_day_td" width="20%">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilStationName}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.openNum}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilPlan}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilFact}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toYesterday}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toYesterday}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toMonth > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toMonth}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toMonth}}</span>
-					</u-td>
-				</u-tr>
-				<u-tr class="oil_day_tr" v-for="(item, index) in oilDayData" :key="index">
-					<u-td class="oil_day_td" width="20%">
-						<span @click="wellDetails(item)">{{item.oilStationName}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="14%">
-						<span @click="wellDetails(item)">{{item.openNum}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(item)">{{item.oilPlan}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="18%">
-						<span @click="wellDetails(item)">{{item.oilFact}}m<sup>3</sup></span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(item)">+{{item.toYesterday}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(item)">{{item.toYesterday}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">
-						<span @click="wellDetails(item)">+{{item.toMonth}}</span>
-					</u-td>
-					<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
-						<span @click="wellDetails(item)">{{item.toMonth}}</span>
-					</u-td>
-				</u-tr>
-			</u-table>
-			<view class="oil_station_name">{{oilStation}}—近15天产油曲线</view>
-			<view class="oilLine">
-				<canvas canvas-id="oilDayLine" id="oilDayLine" @touchstart="touchLine" />
+		<w-loading text="加载中.." mask="true" click="false" ref="loading"/>
+		<view v-show="load === true" style="width: 100%;height: 100vh;background: #FFFFFF;"/>
+		<view class="oil_day" v-show="load === false">
+			<u-section class="oil_page_title" font-size="24" title="日产油" line-color="#113b8f" sub-title="" :arrow=false />
+			<u-icon class="title_calendar" name="calendar" @click="calendarShow = true" label="日期选择" label-pos="left" color="#000" size="30upx" label-size="24" label-color="#000" />
+			<u-calendar v-model="calendarShow" mode="date" @change="selectByData" />
+			<view class="oil_day_charts" >
+				<canvas canvas-id="oilDayColumn" id="oilDayColumn" @touchstart="touchColumn" />
+			</view>
+			<PageTitle title_left_text="完成情况" title_right_text="" />
+			<view class="oil_day_details">
+				<u-table class="oil_day_table" border-color="#999999" padding="0 0">
+					<u-tr class="oil_day_tr">
+						<u-td class="oil_day_td" width="20%">场站</u-td>
+						<u-td class="oil_day_td" width="14%">开井</u-td>
+						<u-td class="oil_day_td" width="18%">计划产油</u-td>
+						<u-td class="oil_day_td" width="18%">实际产油</u-td>
+						<u-td class="oil_day_td" width="15%">较昨日</u-td>
+						<u-td class="oil_day_td" width="15%">较月平均</u-td>
+					</u-tr>
+					<u-tr class="oil_day_tr">
+						<u-td class="oil_day_td" width="20%">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilStationName}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.openNum}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilPlan}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.oilFact}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toYesterday}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toYesterday}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-if="oilDayDataSum.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(oilDayDataSum)">+{{oilDayDataSum.toMonth}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-else style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(oilDayDataSum)">{{oilDayDataSum.toMonth}}</span>
+						</u-td>
+					</u-tr>
+					<u-tr class="oil_day_tr" v-for="(item, index) in oilDayData" :key="index">
+						<u-td class="oil_day_td" width="20%">
+							<span @click="wellDetails(item)">{{item.oilStationName}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="14%">
+							<span @click="wellDetails(item)">{{item.openNum}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(item)">{{item.oilPlan}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="18%">
+							<span @click="wellDetails(item)">{{item.oilFact}}m<sup>3</sup></span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-if="item.toYesterday > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(item)">+{{item.toYesterday}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(item)">{{item.toYesterday}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-if="item.toMonth > 0" style="color: #e65a40;font-weight: bold;">
+							<span @click="wellDetails(item)">+{{item.toMonth}}</span>
+						</u-td>
+						<u-td class="oil_day_td" width="15%" v-else  style="color: #22b573;font-weight: bold;">
+							<span @click="wellDetails(item)">{{item.toMonth}}</span>
+						</u-td>
+					</u-tr>
+				</u-table>
+				<view class="oil_station_name">{{oilStation}}—近15天产油曲线</view>
+				<view class="oilLine">
+					<canvas canvas-id="oilDayLine" id="oilDayLine" @touchstart="touchLine" />
+				</view>
 			</view>
 		</view>
 	</view>
@@ -96,7 +100,8 @@
 				oilDayData: [],
 				oilColumnData: {},
 				oilLineData: {},
-				oilStation: '合计'
+				oilStation: '合计',
+				load: true
 			}
 		},
 		methods: {
@@ -331,6 +336,18 @@
 				}]
 			};
 			_self.showLine("oilDayLine", _self.oilLineData);
+		},
+		onReady() {
+			let that = this;
+			this.$refs.loading.open();
+			setTimeout(function() {
+				that.load = false;
+				that.$refs.loading.close();
+				that.oilColumnData.animation = true;
+				canvaColumn.updateData(that.oilColumnData);
+				that.oilLineData.animation = true;
+				canvaLine.updateData(that.oilLineData);
+			}, 2500);
 		}
 	}
 </script>

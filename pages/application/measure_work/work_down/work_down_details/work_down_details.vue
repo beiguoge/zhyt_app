@@ -1,7 +1,7 @@
 <template>
 	<view class="work_down_details">
 		<PageTitle :title_left_text='`${wellName}作业进度`' title_right_text="" />
-		<uni-steps class="step" :options="stepList" :active="1" active-color="#2979ff" />
+		<uni-steps class="step" :options="stepList" :active="0" active-color="#2979ff" />
 		<view class="step1" @click="stepInfo(1)"/>
 		<view class="step2" @click="stepInfo(2)"/>
 		<view class="step3" @click="stepInfo(3)"/>
@@ -33,7 +33,7 @@
 						</view>
 						<view class="card_item">
 							<view class="card_item_title">附件(下载、预览)</view>
-							<view class="word">
+							<view class="word" @click="downloadFile">
 								<u-image width="45rpx" height="48rpx" src="/static/image/application/word.png" />
 								<u-link class="card_item_text" href="#" font-size="25" style="margin-top: 2%;">{{reportInfo.annex}}</u-link>
 							</view>
@@ -80,7 +80,7 @@
 						</view>
 						<view class="card_item">
 							<view class="card_item_title">附件(下载、预览)</view>
-							<view class="word">
+							<view class="word" @click="downloadFile">
 								<u-image width="45rpx" height="48rpx" src="/static/image/application/word.png" />
 								<u-link class="card_item_text" href="#" font-size="25" style="margin-top: 2%;">{{dispatchData.annex}}</u-link>
 							</view>
@@ -119,7 +119,7 @@
 						</view>
 						<view class="card_item">
 							<view class="card_item_title">附件(下载、预览)</view>
-							<view class="word">
+							<view class="word" @click="downloadFile">
 								<u-image width="45rpx" height="48rpx" src="/static/image/application/word.png" />
 								<u-link class="card_item_text" href="#" font-size="25" style="margin-top: 2%;">{{chooseSceneData.annex}}</u-link>
 							</view>
@@ -149,6 +149,7 @@
 		<u-popup v-model="showImg" mode="center" width="100%" height="40%" :mask-custom-style="maskCustomStyle">
 			<u-image width="100%" height="100%" :src="showPath" />
 		</u-popup>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -187,6 +188,29 @@
 			},
 			changeScene(index) {
 				this.chooseSceneData = this.workSceneData[index];
+			},
+			downloadFile() {
+				console.log('aaa');
+				let that = this;
+				uni.downloadFile({
+					url: 'https://finance-1255360499.cos.ap-beijing.myqcloud.com/finance/user/user_multipartFile04bdf570-b489-470f-a9b9-4b7c9d5a7029.gif',
+					success: (res) => {
+						uni.saveFile({
+							tempFilePath: res.tempFilePath,
+							success:function(res){
+								uni.openDocument({
+									filePath: res.savedFilePath
+								})
+							}
+						})
+					},
+					fail: (res) => {
+						this.$refs.uToast.show({
+							title: '下载失败,请检查网络',
+							type: 'error'
+						})
+					}
+				})
 			}
 		},
 		onLoad:function(option){
