@@ -63,9 +63,9 @@
             "splashscreen" : {
                 "androidStyle" : "common",
                 "android" : {
-                    "hdpi" : "C:/Users/user/Downloads/logo.png",
-                    "xhdpi" : "C:/Users/user/Downloads/logo.png",
-                    "xxhdpi" : "C:/Users/user/Downloads/logo.png"
+                    "hdpi" : "C:/Users/17768/Desktop/res/drawable-hdpi/logo.9.png",
+                    "xhdpi" : "C:/Users/17768/Desktop/res/drawable-xhdpi/logo.9.png",
+                    "xxhdpi" : "C:/Users/17768/Desktop/res/drawable-xxhdpi/logo.9.png"
                 }
             },
             "icons" : {

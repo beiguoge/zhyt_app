@@ -12,14 +12,6 @@
 		    }
 		},
 		{
-		    "path" : "pages/welcome/welcome",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -222,6 +214,6 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "智慧油田",
 		"navigationBarBackgroundColor": "#113b8f",
-		"backgroundColor": "#113b8f"
+		"backgroundColor": "#FFFFFF"
 	}
 }
